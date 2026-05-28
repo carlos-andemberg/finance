@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="FinanceFácil — Seu guia completo de finanças pessoais e investimentos em português. Ferramentas gratuitas para calcular rendimentos, comparar investimentos e planejar sua aposentadoria." />
+  <meta name="keywords"
+    content="finanças pessoais, investimentos, calculadora juros compostos, Tesouro Direto, renda fixa, renda variável, aposentadoria, orçamento familiar" />
+  <meta name="theme-color" content="#0a1628" />
+  <meta property="og:title" content="FinanceFácil — Invista com Confiança" />
+  <meta property="og:description"
+    content="Ferramentas gratuitas e linguagem simples para você cuidar do seu dinheiro." />
+  <title>FinanceFácil — Invista com Confiança</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;600;700;800&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <!-- Skip Navigation -->
+  <a href="#main-content" class="skip-link">Ir para o conteúdo principal</a>
+
+  <!-- Header / Nav -->
+  <header class="site-header" role="banner">
+    <nav class="navbar" aria-label="Navegação principal">
+      <a href="#" class="logo" aria-label="FinanceFácil - Página Inicial">
+        <span class="logo-icon" aria-hidden="true">💰</span>
+        <span class="logo-text">Finance<span class="logo-accent">Fácil</span></span>
+      </a>
+
+      <ul class="nav-links" role="list">
+        <li><a href="#ferramentas" class="nav-link">Ferramentas</a></li>
+        <li><a href="#aprender" class="nav-link">Aprender</a></li>
+        <li><a href="#comparador" class="nav-link">Comparar</a></li>
+        <li><a href="#glossario" class="nav-link">Glossário</a></li>
+      </ul>
+
+      <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menu" aria-expanded="false"
+        aria-controls="mobile-menu">
+        <span class="hamburger" aria-hidden="true"></span>
+      </button>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobile-menu" role="navigation" aria-label="Menu mobile" inert>
+      <ul role="list">
+        <li><a href="#ferramentas" class="mobile-nav-link">🛠️ Ferramentas</a></li>
+        <li><a href="#aprender" class="mobile-nav-link">📚 Aprender</a></li>
+        <li><a href="#comparador" class="mobile-nav-link">⚖️ Comparar</a></li>
+        <li><a href="#glossario" class="mobile-nav-link">📖 Glossário</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <!-- Hero Section -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span aria-hidden="true">🇧🇷</span> Feito para o brasileiro
+        </div>
+        <h1 id="hero-title" class="hero-title">
+          Cuide do seu dinheiro<br />
+          <span class="hero-highlight">sem complicação</span>
+        </h1>
+        <p class="hero-description">
+          Ferramentas gratuitas, linguagem simples e tudo que você precisa
+          para investir melhor e alcançar sua liberdade financeira.
+        </p>
+        <div class="hero-actions">
+          <a href="#ferramentas" class="btn btn-primary">Explorar ferramentas</a>
+          <a href="#aprender" class="btn btn-ghost">Como começar →</a>
+        </div>
+
+        <!-- Live Rates Strip -->
+        <div class="rates-strip" role="region" aria-label="Taxas de referência atuais">
+          <div class="rates-inner" id="rates-ticker">
+            <span class="rate-item">
+              <span class="rate-label">Selic</span>
+              <span class="rate-value positive" id="selic-rate">10,50% a.a.</span>
+            </span>
+            <span class="rate-divider" aria-hidden="true">•</span>
+            <span class="rate-item">
+              <span class="rate-label">CDI</span>
+              <span class="rate-value positive" id="cdi-rate">10,40% a.a.</span>
+            </span>
+            <span class="rate-divider" aria-hidden="true">•</span>
+            <span class="rate-item">
+              <span class="rate-label">IPCA (12m)</span>
+              <span class="rate-value" id="ipca-rate">4,83%</span>
+            </span>
+            <span class="rate-divider" aria-hidden="true">•</span>
+            <span class="rate-item">
+              <span class="rate-label">IGP-M (12m)</span>
+              <span class="rate-value" id="igpm-rate">6,10%</span>
+            </span>
+            <span class="rate-divider" aria-hidden="true">•</span>
+            <span class="rate-item">
+              <span class="rate-label">Dólar</span>
+              <span class="rate-value" id="dolar-rate">R$ 5,14</span>
+            </span>
+            <span class="rate-divider" aria-hidden="true">•</span>
+            <span class="rate-item">
+              <span class="rate-label">Euro</span>
+              <span class="rate-value" id="euro-rate">R$ 5,58</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Stats -->
+    <section class="quick-stats" aria-label="Destaques rápidos">
+      <div class="container">
+        <div class="stats-grid">
+          <article class="stat-card">
+            <div class="stat-icon" aria-hidden="true">📈</div>
+            <div class="stat-number">8+</div>
+            <div class="stat-label">Ferramentas gratuitas</div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-icon" aria-hidden="true">🎯</div>
+            <div class="stat-number">0</div>
+            <div class="stat-label">Custo para usar</div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-icon" aria-hidden="true">🔐</div>
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Privado — sem cadastro</div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-icon" aria-hidden="true">🇧🇷</div>
+            <div class="stat-number">BR</div>
+            <div class="stat-label">Mercado brasileiro</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ferramentas Section -->
+    <section id="ferramentas" class="tools-section" aria-labelledby="tools-title">
+      <div class="container">
+        <header class="section-header">
+          <div class="section-badge">🛠️ Ferramentas</div>
+          <h2 id="tools-title" class="section-title">Tome decisões mais inteligentes</h2>
+          <p class="section-description">
+            Calculadoras e comparadores feitos para o mercado brasileiro.
+            Simples de usar, resultados confiáveis.
+          </p>
+        </header>
+
+        <!-- Tool Tabs -->
+        <div class="tool-tabs" role="tablist" aria-label="Ferramentas financeiras">
+          <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab-juros" id="btn-juros"
+            data-tab="juros">
+            📊 Juros Compostos
+          </button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-aposentadoria"
+            id="btn-aposentadoria" data-tab="aposentadoria" tabindex="-1">
+            🏖️ Aposentadoria
+          </button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-financiamento"
+            id="btn-financiamento" data-tab="financiamento" tabindex="-1">
+            🏠 Financiamento
+          </button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-inflacao" id="btn-inflacao"
+            data-tab="inflacao" tabindex="-1">
+            📉 Inflação Real
+          </button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-regra72" id="btn-regra72"
+            data-tab="regra72" tabindex="-1">
+            ⚡ Regra do 72
+          </button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-orcamento" id="btn-orcamento"
+            data-tab="orcamento" tabindex="-1">
+            💳 Orçamento 50/30/20
+          </button>
+        </div>
+
+        <!-- Tab Panels -->
+        <div class="tab-panels">
+
+          <!-- Juros Compostos -->
+          <div class="tab-panel active" id="tab-juros" role="tabpanel" aria-labelledby="btn-juros">
+            <div class="calculator-grid">
+              <div class="calc-form-area">
+                <div class="calc-header">
+                  <h3 class="calc-title">Calculadora de Juros Compostos</h3>
+                  <p class="calc-description">Veja quanto seu dinheiro pode crescer ao longo do tempo com o poder dos
+                    juros compostos — o "8º maravilha do mundo" segundo Einstein.</p>
+                </div>
+
+                <form class="calc-form" id="juros-form" novalidate aria-label="Formulário de juros compostos">
+                  <div class="form-group">
+                    <label for="capital-inicial" class="form-label">
+                      💵 Capital Inicial
+                      <span class="form-hint">Quanto você vai começar investindo?</span>
+                    </label>
+                    <div class="input-group">
+                      <span class="input-prefix" aria-hidden="true">R$</span>
+                      <input type="number" id="capital-inicial" name="capital-inicial" class="form-input" value="1000"
+                        min="0" step="100" aria-describedby="capital-hint" inputmode="decimal" />
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="aporte-mensal" class="form-label">
+                      📅 Aporte Mensal
+                      <span class="form-hint">Quanto você vai investir todo mês?</span>
+                    </label>
+                    <div class="input-group">
+                      <span class="input-prefix" aria-hidden="true">R$</span>
+                      <input type="number" id="aporte-mensal" name="aporte-mensal" class="form-input" value="500"
+                        min="0" step="50" inputmode="decimal" />
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="taxa-juros" class="form-label">
+                      📈 Taxa de Juros ao Ano
+                      <span class="form-hint" id="hint-taxa-juros">CDI hoje = ~10,40% a.a. | Selic = 10,50% a.a.</span>
+                    </label>
+                    <div class="input-group">
+                      <input type="number" id="taxa-juros" name="taxa-juros" class="form-input" value="10.5" min="0.1"
+                        max="100" step="0.1" inputmode="decimal" />
+                      <span class="input-suffix" aria-hidden="true">%</span>
+                    </div>
+                    <div class="quick-rates" role="group" aria-label="Atalhos de taxas de referência">
+                      <button type="button" class="quick-rate-btn" data-rate="10.5">Selic</button>
+                      <button type="button" class="quick-rate-btn" data-rate="10.4">CDI</button>
+                      <button type="button" class="quick-rate-btn" data-rate="12">CDB 12%</button>
+                      <button type="button" class="quick-rate-btn" data-rate="14">LCI 14%</button>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="periodo" class="form-label">
+                      ⏳ Período
+                      <span class="form-hint">Por quantos anos você vai investir?</span>
+                    </label>
+                    <div class="input-group">
+                      <input type="range" id="periodo-slider" class="range-slider" min="1" max="40" value="10"
+                        aria-controls="periodo" />
+                      <input type="number" id="periodo" name="periodo" class="form-input range-display" value="10"
+                        min="1" max="40" inputmode="numeric" aria-label="Período em anos" />
+                      <span class="input-suffix" aria-hidden="true">anos</span>
+                    </div>
+                  </div>
+
+                  <button type="submit" class="btn btn-primary btn-full" id="calcular-juros">
+                    Calcular agora
+                  </button>
+                </form>
+              </div>
+
+              <div class="calc-results-area" id="juros-results" aria-live="polite" aria-atomic="true">
+                <div class="result-card main-result">
+                  <div class="result-label">💰 Total acumulado</div>
+                  <div class="result-value" id="total-acumulado">R$ 0,00</div>
+                </div>
+                <div class="results-breakdown">
+                  <div class="result-item">
+                    <span class="result-item-label">Você investiu</span>
+                    <span class="result-item-value" id="total-investido">R$ 0,00</span>
+                  </div>
+                  <div class="result-item highlight">
+                    <span class="result-item-label">✨ Juros ganhos</span>
+                    <span class="result-item-value positive" id="total-juros">R$ 0,00</span>
+                  </div>
+                  <div class="result-item">
+                    <span class="result-item-label">Renda mensal estimada</span>
+                    <span class="result-item-value" id="renda-mensal">R$ 0,00</span>
+                  </div>
+                </div>
+
+                <!-- Bar Chart -->
+                <div class="chart-container" aria-label="Gráfico de evolução do patrimônio">
+                  <div class="chart-legend">
+                    <span class="legend-item invested"><span class="legend-dot"
+                        aria-hidden="true"></span>Investido</span>
+                    <span class="legend-item earned"><span class="legend-dot"
+                        aria-hidden="true"></span>Rendimento</span>
+                  </div>
+                  <div class="bar-chart" id="juros-chart" role="img"
+                    aria-label="Evolução do patrimônio ao longo dos anos"></div>
+                  <div class="chart-years" id="chart-years-label"></div>
+                </div>
+
+                <div class="result-tip">
+                  <span aria-hidden="true">💡</span>
+                  <span id="juros-tip">Calcule para ver sua projeção!</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Aposentadoria -->
+          <div class="tab-panel" id="tab-aposentadoria" role="tabpanel" aria-labelledby="btn-aposentadoria" hidden>
+            <div class="calculator-grid">
+              <div class="calc-form-area">
+                <div class="calc-header">
+                  <h3 class="calc-title">Planejador de Aposentadoria</h3>
+                  <p class="calc-description">Descubra quanto você precisa guardar por mês para se aposentar
+                    confortavelmente e com independência financeira.</p>
+                </div>
+
+                <form class="calc-form" id="aposen-form" novalidate
+                  aria-label="Formulário de planejamento de aposentadoria">
+                  <div class="form-group">
+                    <label for="idade-atual" class="form-label">
+                      🎂 Sua Idade Atual
+                    </label>
+                    <div class="input-group">
+                      <input type="number" id="idade-atual" class="form-input" value="30" min="18" max="65"
+                        inputmode="numeric" />
+                      <span class="input-suffix" aria-hidden="true">anos</span>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="idade-aposen" class="form-label">
+                      🏖️ Idade Desejada para Aposentadoria
+                    </label>
+                    <div class="input-group">
+                      <input type="number" id="idade-aposen" class="form-input" value="60" min="40" max="80"
+                        inputmode="numeric" />
+                      <span class="input-suffix" aria-hidden="true">anos</span>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="renda-desejada" class="form-label">
+                      💵 Renda Mensal Desejada na Aposentadoria
+                      <span class="form-hint">Quanto você quer receber por mês?</span>
+                    </label>
+                    <div class="input-group">
+                      <span class="input-prefix" aria-hidden="true">R$</span>
+                      <input type="number" id="renda-desejada" class="form-input" value="5000" min="500" step="500"
+                        inputmode="decimal" />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="expectativa-vida" class="form-label">
+                      📊 Expectativa de Vida
+                    </label>
+                    <div class="input-group">
+                      <input type="number" id="expectativa-vida" class="form-input" value="85" min="65" max="100"
+                        inputmode="numeric" />
+                      <span class="input-suffix" aria-hidden="true">anos</span>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="taxa-aposen" class="form-label">
+                      📈 Taxa de Retorno Esperada ao Ano
+                    </label>
+                    <div class="input-group">
+                      <input type="number" id="taxa-aposen" class="form-input" value="10.5" step="0.5"
+                        inputmode="decimal" />
+                      <span class="input-suffix" aria-hidden="true">%</span>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="patrimonio-atual" class="form-label">
+                      🏦 Quanto você já tem guardado?
+                    </label>
+                    <div class="input-group">
+                      <span class="input-prefix" aria-hidden="true">R$</span>
+                      <input type="number" id="patrimonio-atual" class="form-input" value="0" min="0" step="1000"
+                        inputmode="decimal" />
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-full">Calcular minha aposentadoria</button>
+                </form>
+              </div>
+
+              <div class="calc-results-area" id="aposen-results" aria-live="polite" aria-atomic="true">
+                <div class="result-card main-result">
+                  <div class="result-label">💰 Patrimônio necessário</div>
+                  <div class="result-value" id="patrimonio-necessario">R$ 0,00</div>
+                </div>
+                <div class="results-breakdown">
+                  <div class="result-item">
+                    <span class="result-item-label">Aporte mensal necessário</span>
+                    <span class="result-item-value" id="aporte-necessario">R$ 0,00</span>
+                  </div>
+                  <div class="result-item">
+                    <span class="result-item-label">Anos para aposentar</span>
+                    <span class="result-item-value" id="anos-aposen">0 anos</span>
+                  </div>
+                  <div class="result-item">
+                    <span class="result-item-label">Renda mensal garantida</span>
+                    <span class="result-item-value positive" id="renda-garantida">R$ 0,00</span>
+                  </div>
+                </div>
+
+                <div class="independence-meter" aria-label="Termômetro de independência financeira">
+                  <div class="meter-label">🌡️ Termômetro de Independência</div>
+                  <div class="meter-track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
+                    id="independence-meter">
+                    <div class="meter-fill" id="meter-fill"></div>
+                  </div>
+                  <div class="meter-labels">
+                    <span>Começando</span>
+                    <span>Caminhando</span>
+                    <span>Livre! 🎉</span>
+                  </div>
+                </div>
+
+                <div class="result-tip">
+                  <span aria-hidden="true">💡</span>
+                  <span id="aposen-tip">Preencha os dados e descubra quanto precisa guardar!</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Financiamento -->
+          <div class="tab-panel" id="tab-financiamento" role="tabpanel" aria-labelledby="btn-financiamento" hidden>
+            <div class="calculator-grid">
+              <div class="calc-form-area">
+                <div class="calc-header">
+                  <h3 class="calc-title">Simulador de Financiamento</h3>
+                  <p class="calc-description">Compare sistemas de amortização SAC e Price para entender quanto você vai
+                    pagar ao total no financiamento do seu imóvel ou veículo.</p>
+                </div>
+                <form class="calc-form" id="fin-form" novalidate aria-label="Formulário de simulação de financiamento">
+                  <div class="form-group">
+                    <label for="valor-financ" class="form-label">
+                      🏠 Valor do Bem
+                    </label>
+                    <div class="input-group">
+                      <span class="input-prefix" aria-hidden="true">R$</span>
+                      <input type="number" id="valor-financ" class="form-input" value="300000" step="5000"
+                        inputmode="decimal" />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="entrada-financ" class="form-label">
+                      💵 Entrada (%)
+                      <span class="form-hint">Banco exige mínimo 20% para imóveis</span>
+                    </label>
+                    <div class="input-group">
+                      <input type="range" id="entrada-slider" class="range-slider" min="0" max="90" value="20"
+                        aria-controls="entrada-financ" />
+                      <input type="number" id="entrada-financ" class="form-input range-display" value="20" min="0"
+                        max="90" inputmode="numeric" />
+                      <span class="input-suffix" aria-hidden="true">%</span>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="taxa-financ" class="form-label">
+                      📈 Taxa de Juros ao Mês
+                    </label>
+                    <div class="input-group">
+                      <input type="number" id="taxa-financ" class="form-input" value="0.9" step="0.05"
+                        inputmode="decimal" />
+                      <span class="input-suffix" aria-hidden="true">% a.m.</span>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="prazo-financ" class="form-label">
+                      ⏳ Prazo
+                    </label>
+                    <div class="input-group">
+                      <input type="number" id="prazo-financ" class="form-input" value="360" min="12" max="420" step="12"
+                        inputmode="numeric" />
+                      <span class="input-suffix" aria-hidden="true">meses</span>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Sistema de Amortização</label>
+                    <div class="radio-group" role="group" aria-label="Sistema de amortização">
+                      <label class="radio-label">
+                        <input type="radio" name="sistema" value="price" checked />
+                        <span class="radio-custom" aria-hidden="true"></span>
+                        PRICE — Parcela fixa
+                      </label>
+                      <label class="radio-label">
+                        <input type="radio" name="sistema" value="sac" />
+                        <span class="radio-custom" aria-hidden="true"></span>
+                        SAC — Parcelas decrescentes
+                      </label>
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-full">Simular financiamento</button>
+                </form>
+              </div>
+
+              <div class="calc-results-area" id="fin-results" aria-live="polite" aria-atomic="true">
+                <div class="result-card main-result">
+                  <div class="result-label">📋 Primeira parcela</div>
+                  <div class="result-value" id="primeira-parcela">R$ 0,00</div>
+                </div>
+                <div class="results-breakdown">
+                  <div class="result-item">
+                    <span class="result-item-label">Valor financiado</span>
+                    <span class="result-item-value" id="valor-financiado">R$ 0,00</span>
+                  </div>
+                  <div class="result-item">
+                    <span class="result-item-label">Total de juros pagos</span>
+                    <span class="result-item-value negative" id="total-juros-fin">R$ 0,00</span>
+                  </div>
+                  <div class="result-item">
+                    <span class="result-item-label">Total pago ao banco</span>
+                    <span class="result-item-value" id="total-pago">R$ 0,00</span>
+                  </div>
+                </div>
+                <div class="comparison-cards" id="sistema-comparison">
+                  <div class="comparison-card">
+                    <div class="comparison-title">PRICE</div>
+                    <div class="comparison-value" id="price-total">—</div>
+                    <div class="comparison-label">Total pago</div>
+                  </div>
+                  <div class="comparison-card highlight">
+                    <div class="comparison-title">SAC</div>
+                    <div class="comparison-value" id="sac-total">—</div>
+                    <div class="comparison-label">Total pago (mais barato)</div>
+                  </div>
+                </div>
+                <div class="result-tip">
+                  <span aria-hidden="true">💡</span>
+                  <span id="fin-tip">O SAC costuma ser mais barato no total, porém a primeira parcela é maior.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Inflação Real -->
+          <div class="tab-panel" id="tab-inflacao" role="tabpanel" aria-labelledby="btn-inflacao" hidden>
+            <div class="calculator-grid">
+              <div class="calc-form-area">
+                <div class="calc-header">
+                  <h3 class="calc-title">Calculadora de Retorno Real</h3>
+                  <p class="calc-description">Descubra quanto seu investimento realmente rende depois de descontar a
+                    inflação. Saber o <strong>retorno real</strong> é essencial para não perder poder de compra.</p>
+                </div>
+                <form class="calc-form" id="inflacao-form" novalidate
+                  aria-label="Formulário de cálculo de retorno real">
+                  <div class="form-group">
+                    <label for="valor-inflac" class="form-label">
+                      💵 Valor Investido
+                    </label>
+                    <div class="input-group">
+                      <span class="input-prefix" aria-hidden="true">R$</span>
+                      <input type="number" id="valor-inflac" class="form-input" value="10000" step="1000"
+                        inputmode="decimal" />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="taxa-nominal" class="form-label">
+                      📈 Taxa Nominal do Investimento (ao ano)
+                      <span class="form-hint" id="hint-taxa-nominal">Ex.: CDI = 10,40%</span>
+                    </label>
+                    <div class="input-group">
+                      <input type="number" id="taxa-nominal" class="form-input" value="10.4" step="0.1"
+                        inputmode="decimal" />
+                      <span class="input-suffix" aria-hidden="true">%</span>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="taxa-inflacao" class="form-label">
+                      📉 IPCA — Inflação ao Ano
+                      <span class="form-hint" id="hint-taxa-ipca">Atual = ~4,83% nos últimos 12 meses</span>
+                    </label>
+                    <div class="input-group">
+                      <input type="number" id="taxa-inflacao" class="form-input" value="4.83" step="0.1"
+                        inputmode="decimal" />
+                      <span class="input-suffix" aria-hidden="true">%</span>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="periodo-inflac" class="form-label">
+                      ⏳ Período em Anos
+                    </label>
+                    <div class="input-group">
+                      <input type="number" id="periodo-inflac" class="form-input" value="5" min="1" max="30"
+                        inputmode="numeric" />
+                      <span class="input-suffix" aria-hidden="true">anos</span>
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-full">Calcular retorno real</button>
+                </form>
+              </div>
+
+              <div class="calc-results-area" id="inflac-results" aria-live="polite" aria-atomic="true">
+                <div class="result-card main-result">
+                  <div class="result-label">💹 Retorno Real ao Ano</div>
+                  <div class="result-value" id="retorno-real">0,00%</div>
+                </div>
+                <div class="results-breakdown">
+                  <div class="result-item">
+                    <span class="result-item-label">Valor nominal ao final</span>
+                    <span class="result-item-value" id="valor-nominal-final">R$ 0,00</span>
+                  </div>
+                  <div class="result-item">
+                    <span class="result-item-label">Valor em poder de compra atual</span>
+                    <span class="result-item-value" id="valor-real-final">R$ 0,00</span>
+                  </div>
+                  <div class="result-item">
+                    <span class="result-item-label">Ganho real</span>
+                    <span class="result-item-value positive" id="ganho-real">R$ 0,00</span>
+                  </div>
+                </div>
+                <div class="purchasing-power" id="purchasing-power-vis" aria-label="Comparação do poder de compra">
+                  <div class="power-bar">
+                    <div class="power-bar-label">Hoje</div>
+                    <div class="power-bar-track">
+                      <div class="power-bar-fill today" style="width: 100%"></div>
+                    </div>
+                    <span class="power-bar-value" id="power-today">R$ 0</span>
+                  </div>
+                  <div class="power-bar">
+                    <div class="power-bar-label">No futuro (nominal)</div>
+                    <div class="power-bar-track">
+                      <div class="power-bar-fill nominal" id="bar-nominal" style="width: 100%"></div>
+                    </div>
+                    <span class="power-bar-value" id="power-nominal">R$ 0</span>
+                  </div>
+                  <div class="power-bar">
+                    <div class="power-bar-label">No futuro (poder de compra)</div>
+                    <div class="power-bar-track">
+                      <div class="power-bar-fill real" id="bar-real" style="width: 50%"></div>
+                    </div>
+                    <span class="power-bar-value" id="power-real">R$ 0</span>
+                  </div>
+                </div>
+                <div class="result-tip">
+                  <span aria-hidden="true">💡</span>
+                  <span id="inflac-tip">Calcule para ver o impacto da inflação no seu patrimônio!</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Regra do 72 -->
+          <div class="tab-panel" id="tab-regra72" role="tabpanel" aria-labelledby="btn-regra72" hidden>
+            <div class="calculator-grid">
+              <div class="calc-form-area">
+                <div class="calc-header">
+                  <h3 class="calc-title">Regra do 72</h3>
+                  <p class="calc-description">
+                    A Regra do 72 é um atalho mental poderoso: divida 72 pela taxa de juros anual e você descobre em
+                    quantos anos seu dinheiro <strong>dobra</strong>.
+                  </p>
+                </div>
+                <form class="calc-form" id="r72-form" novalidate aria-label="Formulário da regra do 72">
+                  <div class="form-group">
+                    <label for="taxa-r72" class="form-label">
+                      📈 Taxa de Juros ao Ano
+                    </label>
+                    <div class="input-group">
+                      <input type="number" id="taxa-r72" class="form-input" value="10.5" step="0.1"
+                        inputmode="decimal" />
+                      <span class="input-suffix" aria-hidden="true">%</span>
+                    </div>
+                    <div class="quick-rates" role="group" aria-label="Atalhos de taxa">
+                      <button type="button" class="quick-rate-btn" data-target="taxa-r72"
+                        data-rate="10.5">Selic</button>
+                      <button type="button" class="quick-rate-btn" data-target="taxa-r72" data-rate="10.4">CDI</button>
+                      <button type="button" class="quick-rate-btn" data-target="taxa-r72"
+                        data-rate="6">Poupança</button>
+                      <button type="button" class="quick-rate-btn" data-target="taxa-r72" data-rate="14">LCI</button>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="valor-r72" class="form-label">
+                      💵 Valor Inicial (opcional)
+                    </label>
+                    <div class="input-group">
+                      <span class="input-prefix" aria-hidden="true">R$</span>
+                      <input type="number" id="valor-r72" class="form-input" value="10000" step="1000"
+                        inputmode="decimal" />
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-full">Calcular tempo para dobrar</button>
+                </form>
+
+                <div class="comparativo-section">
+                  <h4 class="comparativo-title">🔍 Comparativo de investimentos</h4>
+                  <div class="comparativo-table" role="table" aria-label="Tempo para dobrar por investimento">
+                    <div class="comparativo-head" role="row">
+                      <span role="columnheader">Investimento</span>
+                      <span role="columnheader">Taxa</span>
+                      <span role="columnheader">Tempo para dobrar</span>
+                    </div>
+                    <div class="comparativo-row" role="row">
+                      <span role="cell">Poupança</span>
+                      <span role="cell" id="comp-poupanca-taxa">~6% a.a.</span>
+                      <span role="cell" class="highlight-cell" id="comp-poupanca-anos">~12 anos</span>
+                    </div>
+                    <div class="comparativo-row" role="row">
+                      <span role="cell">CDB 100% CDI</span>
+                      <span role="cell" id="comp-cdi-taxa">~10,40% a.a.</span>
+                      <span role="cell" class="highlight-cell" id="comp-cdi-anos">~7 anos</span>
+                    </div>
+                    <div class="comparativo-row" role="row">
+                      <span role="cell">Tesouro Selic</span>
+                      <span role="cell" id="comp-selic-taxa">~10,50% a.a.</span>
+                      <span role="cell" class="highlight-cell" id="comp-selic-anos">~7 anos</span>
+                    </div>
+                    <div class="comparativo-row" role="row">
+                      <span role="cell">LCI/LCA</span>
+                      <span role="cell">~12-14% a.a.</span>
+                      <span role="cell" class="highlight-cell">~5-6 anos</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="calc-results-area" id="r72-results" aria-live="polite" aria-atomic="true">
+                <div class="doubling-visual" aria-label="Visualização de duplicação do patrimônio">
+                  <div class="doubling-money">
+                    <div class="money-stack initial">
+                      <div class="money-icon" aria-hidden="true">💰</div>
+                      <div class="money-label">Hoje</div>
+                      <div class="money-value" id="r72-valor-inicial">R$ 10.000</div>
+                    </div>
+                    <div class="doubling-arrow" aria-hidden="true">
+                      <div class="arrow-line"></div>
+                      <div class="arrow-time" id="r72-tempo">? anos</div>
+                      <div class="arrow-head">→</div>
+                    </div>
+                    <div class="money-stack doubled">
+                      <div class="money-icon" aria-hidden="true">💰💰</div>
+                      <div class="money-label">Dobrado!</div>
+                      <div class="money-value" id="r72-valor-dobrado">R$ 20.000</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="result-card main-result">
+                  <div class="result-label">⏳ Tempo para dobrar</div>
+                  <div class="result-value" id="r72-anos">0 anos</div>
+                </div>
+
+                <div class="results-breakdown">
+                  <div class="result-item">
+                    <span class="result-item-label">Quanto você terá</span>
+                    <span class="result-item-value positive" id="r72-total">R$ 0,00</span>
+                  </div>
+                  <div class="result-item">
+                    <span class="result-item-label">Vamos dobrar de novo? (+mesmo tempo)</span>
+                    <span class="result-item-value" id="r72-quadruplo">R$ 0,00</span>
+                  </div>
+                </div>
+
+                <div class="result-tip">
+                  <span aria-hidden="true">💡</span>
+                  <span id="r72-tip">A Regra do 72 mostra como pequenas diferenças na taxa fazem grande impacto no
+                    tempo!</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Orçamento 50/30/20 -->
+          <div class="tab-panel" id="tab-orcamento" role="tabpanel" aria-labelledby="btn-orcamento" hidden>
+            <div class="calculator-grid">
+              <div class="calc-form-area">
+                <div class="calc-header">
+                  <h3 class="calc-title">Método 50/30/20</h3>
+                  <p class="calc-description">
+                    O método 50/30/20 divide sua renda em três categorias: <strong>50%</strong> para necessidades,
+                    <strong>30%</strong> para desejos e <strong>20%</strong> para guardar/investir.
+                  </p>
+                </div>
+                <form class="calc-form" id="orcamento-form" novalidate aria-label="Formulário de orçamento 50/30/20">
+                  <div class="form-group">
+                    <label for="renda-mensal-orc" class="form-label">
+                      💵 Renda Mensal Líquida
+                      <span class="form-hint">Salário já descontado IR e INSS</span>
+                    </label>
+                    <div class="input-group">
+                      <span class="input-prefix" aria-hidden="true">R$</span>
+                      <input type="number" id="renda-mensal-orc" class="form-input" value="4000" step="500"
+                        inputmode="decimal" />
+                    </div>
+                  </div>
+                  <fieldset class="form-fieldset">
+                    <legend class="form-legend">🏠 Necessidades (limite: 50%)</legend>
+                    <div class="expense-list" id="necessidades-list">
+                      <div class="expense-item">
+                        <label class="expense-label">Moradia (aluguel/prestação)</label>
+                        <div class="input-group">
+                          <span class="input-prefix" aria-hidden="true">R$</span>
+                          <input type="number" class="form-input expense-input" data-category="necessidades"
+                            value="1200" min="0" inputmode="decimal" aria-label="Moradia" />
+                        </div>
+                      </div>
+                      <div class="expense-item">
+                        <label class="expense-label">Alimentação</label>
+                        <div class="input-group">
+                          <span class="input-prefix" aria-hidden="true">R$</span>
+                          <input type="number" class="form-input expense-input" data-category="necessidades" value="800"
+                            min="0" inputmode="decimal" aria-label="Alimentação" />
+                        </div>
+                      </div>
+                      <div class="expense-item">
+                        <label class="expense-label">Transporte</label>
+                        <div class="input-group">
+                          <span class="input-prefix" aria-hidden="true">R$</span>
+                          <input type="number" class="form-input expense-input" data-category="necessidades" value="300"
+                            min="0" inputmode="decimal" aria-label="Transporte" />
+                        </div>
+                      </div>
+                    </div>
+                  </fieldset>
+                  <fieldset class="form-fieldset">
+                    <legend class="form-legend">🎮 Desejos (limite: 30%)</legend>
+                    <div class="expense-list">
+                      <div class="expense-item">
+                        <label class="expense-label">Lazer / Entretenimento</label>
+                        <div class="input-group">
+                          <span class="input-prefix" aria-hidden="true">R$</span>
+                          <input type="number" class="form-input expense-input" data-category="desejos" value="400"
+                            min="0" inputmode="decimal" aria-label="Lazer" />
+                        </div>
+                      </div>
+                      <div class="expense-item">
+                        <label class="expense-label">Roupas / Compras</label>
+                        <div class="input-group">
+                          <span class="input-prefix" aria-hidden="true">R$</span>
+                          <input type="number" class="form-input expense-input" data-category="desejos" value="200"
+                            min="0" inputmode="decimal" aria-label="Roupas" />
+                        </div>
+                      </div>
+                    </div>
+                  </fieldset>
+                  <button type="submit" class="btn btn-primary btn-full">Analisar meu orçamento</button>
+                </form>
+              </div>
+
+              <div class="calc-results-area" id="orcamento-results" aria-live="polite" aria-atomic="true">
+                <div class="donut-chart-wrapper">
+                  <div class="donut-chart" id="donut-chart" aria-label="Gráfico de pizza do orçamento">
+                    <svg viewBox="0 0 100 100" role="img" aria-label="Distribuição do orçamento">
+                      <circle id="donut-necessidades" cx="50" cy="50" r="40" fill="transparent" stroke="#10b981"
+                        stroke-width="20" stroke-dasharray="0 251.2" stroke-dashoffset="0"
+                        transform="rotate(-90 50 50)" />
+                      <circle id="donut-desejos" cx="50" cy="50" r="40" fill="transparent" stroke="#6366f1"
+                        stroke-width="20" stroke-dasharray="0 251.2" stroke-dashoffset="0"
+                        transform="rotate(-90 50 50)" />
+                      <circle id="donut-poupanca" cx="50" cy="50" r="40" fill="transparent" stroke="#f59e0b"
+                        stroke-width="20" stroke-dasharray="0 251.2" stroke-dashoffset="0"
+                        transform="rotate(-90 50 50)" />
+                      <text x="50" y="46" text-anchor="middle" class="donut-center-label">Saldo</text>
+                      <text x="50" y="56" text-anchor="middle" class="donut-center-value" id="donut-saldo">R$ 0</text>
+                    </svg>
+                  </div>
+                  <div class="donut-legend">
+                    <div class="donut-legend-item">
+                      <span class="donut-color nec" aria-hidden="true"></span>
+                      <span class="donut-legend-label">Necessidades</span>
+                      <span class="donut-legend-pct" id="pct-necessidades">0%</span>
+                    </div>
+                    <div class="donut-legend-item">
+                      <span class="donut-color des" aria-hidden="true"></span>
+                      <span class="donut-legend-label">Desejos</span>
+                      <span class="donut-legend-pct" id="pct-desejos">0%</span>
+                    </div>
+                    <div class="donut-legend-item">
+                      <span class="donut-color pou" aria-hidden="true"></span>
+                      <span class="donut-legend-label">Poupança/Invest.</span>
+                      <span class="donut-legend-pct" id="pct-poupanca">0%</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="budget-status" id="budget-status">
+                  <div class="budget-row">
+                    <span>Necessidades (meta: 50%)</span>
+                    <span id="nec-valor">R$ 0</span>
+                    <span class="budget-status-badge" id="nec-status">—</span>
+                  </div>
+                  <div class="budget-row">
+                    <span>Desejos (meta: 30%)</span>
+                    <span id="des-valor">R$ 0</span>
+                    <span class="budget-status-badge" id="des-status">—</span>
+                  </div>
+                  <div class="budget-row">
+                    <span>💎 Para investir</span>
+                    <span id="pou-valor" class="positive">R$ 0</span>
+                    <span class="budget-status-badge" id="pou-status">—</span>
+                  </div>
+                </div>
+
+                <div class="result-tip">
+                  <span aria-hidden="true">💡</span>
+                  <span id="orcamento-tip">Preencha sua renda e gastos para analisar seu orçamento!</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- end tab-panels -->
+      </div>
+    </section>
+
+    <!-- Comparador de Investimentos -->
+    <section id="comparador" class="comparador-section" aria-labelledby="comp-title">
+      <div class="container">
+        <header class="section-header">
+          <div class="section-badge">⚖️ Comparador</div>
+          <h2 id="comp-title" class="section-title">Compare investimentos lado a lado</h2>
+          <p class="section-description">Entenda as diferenças entre os principais investimentos do Brasil de forma
+            clara e objetiva.</p>
+        </header>
+
+        <div class="comparison-table-wrapper">
+          <div class="comparison-filter" role="group" aria-label="Filtrar por perfil de investidor">
+            <button class="filter-btn active" data-filter="all" aria-pressed="true">Todos</button>
+            <button class="filter-btn" data-filter="conservador" aria-pressed="false">🛡️ Conservador</button>
+            <button class="filter-btn" data-filter="moderado" aria-pressed="false">⚖️ Moderado</button>
+            <button class="filter-btn" data-filter="arrojado" aria-pressed="false">🚀 Arrojado</button>
+          </div>
+
+          <div class="investments-grid" id="investments-grid" role="list" aria-label="Lista de investimentos">
+            <!-- Cards generated by JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Aprenda Section -->
+    <section id="aprender" class="learn-section" aria-labelledby="learn-title">
+      <div class="container">
+        <header class="section-header">
+          <div class="section-badge">📚 Aprender</div>
+          <h2 id="learn-title" class="section-title">Conceitos em linguagem simples</h2>
+          <p class="section-description">Sem jargão financeiro complicado. Aqui tudo é explicado como deveria ser.</p>
+        </header>
+
+        <div class="learn-cards">
+          <article class="learn-card" id="aprender-comecar" data-level="iniciante">
+            <div class="learn-card-icon" aria-hidden="true">🐣</div>
+            <div class="learn-card-level">Iniciante</div>
+            <h3 class="learn-card-title">Por onde começar?</h3>
+            <p class="learn-card-desc">Reserva de emergência primeiro, depois investimentos. Descubra a ordem certa.</p>
+            <details class="learn-details">
+              <summary class="learn-summary">Ler mais</summary>
+              <div class="learn-content">
+                <p><strong>Passo 1 — Reserva de Emergência:</strong> Guarde de 3 a 6 meses de despesas em um
+                  investimento seguro e de fácil acesso, como o Tesouro Selic ou CDB com liquidez diária.</p>
+                <p><strong>Passo 2 — Quite dívidas caras:</strong> Cheque especial, cartão de crédito e empréstimo
+                  pessoal têm juros altíssimos. Pague-os antes de investir.</p>
+                <p><strong>Passo 3 — Comece a investir:</strong> Com a reserva formada e dívidas quitadas, você pode
+                  começar a investir o excedente.</p>
+                <div class="tip-box">💡 <strong>Dica:</strong> Invista automaticamente todo mês. Programe uma
+                  transferência no dia do pagamento para não gastar o que deveria ser investido.</div>
+              </div>
+            </details>
+          </article>
+
+          <article class="learn-card" id="aprender-renda-fixa" data-level="iniciante">
+            <div class="learn-card-icon" aria-hidden="true">🏦</div>
+            <div class="learn-card-level">Iniciante</div>
+            <h3 class="learn-card-title">Renda Fixa x Variável</h3>
+            <p class="learn-card-desc">A diferença fundamental que todo investidor precisa entender antes de investir.
+            </p>
+            <details class="learn-details">
+              <summary class="learn-summary">Ler mais</summary>
+              <div class="learn-content">
+                <p><strong>Renda Fixa:</strong> Você sabe (ou consegue estimar) quanto vai receber. Ex.: CDB que paga
+                  100% do CDI ao ano — você já sabe qual a taxa.</p>
+                <p><strong>Renda Variável:</strong> O retorno não é garantido. Pode ganhar muito — ou perder. Ex.:
+                  Ações, FIIs, BDRs.</p>
+                <div class="tip-box">⚖️ <strong>Dica:</strong> Comece com renda fixa para entender o mercado, depois vá
+                  adicionando renda variável conforme sua experiência cresce.</div>
+              </div>
+            </details>
+          </article>
+
+          <article class="learn-card" id="aprender-fgc" data-level="intermediario">
+            <div class="learn-card-icon" aria-hidden="true">🛡️</div>
+            <div class="learn-card-level">Intermediário</div>
+            <h3 class="learn-card-title">FGC — seu seguro de investimentos</h3>
+            <p class="learn-card-desc">O Fundo Garantidor de Créditos protege até R$ 250 mil por CPF por instituição.
+            </p>
+            <details class="learn-details">
+              <summary class="learn-summary">Ler mais</summary>
+              <div class="learn-content">
+                <p>O <strong>FGC</strong> garante seus investimentos em CDB, LCI, LCA, Poupança e outros produtos
+                  bancários em até <strong>R$ 250.000 por CPF por banco</strong>, com limite global de R$ 1 milhão a
+                  cada 4 anos.</p>
+                <p>Isso significa: mesmo se o banco quebrar, você recebe de volta até esse valor.</p>
+                <div class="tip-box">🛡️ <strong>Dica:</strong> Distribua seus investimentos entre bancos diferentes
+                  para maximizar a cobertura do FGC.</div>
+              </div>
+            </details>
+          </article>
+
+          <article class="learn-card" id="aprender-diversificacao" data-level="intermediario">
+            <div class="learn-card-icon" aria-hidden="true">📊</div>
+            <div class="learn-card-level">Intermediário</div>
+            <h3 class="learn-card-title">Diversificação inteligente</h3>
+            <p class="learn-card-desc">"Não coloque todos os ovos na mesma cesta" — mas como fazer isso na prática?</p>
+            <details class="learn-details">
+              <summary class="learn-summary">Ler mais</summary>
+              <div class="learn-content">
+                <p>Diversificar significa <strong>dividir seus investimentos</strong> entre tipos diferentes de ativos
+                  para reduzir riscos. Quando um investimento cai, outro pode subir.</p>
+                <p><strong>Exemplo de carteira para iniciante:</strong></p>
+                <ul>
+                  <li>50% — Renda fixa (CDB, Tesouro Direto)</li>
+                  <li>30% — FIIs (Fundos de Investimento Imobiliário)</li>
+                  <li>20% — Ações ou ETFs</li>
+                </ul>
+                <div class="tip-box">📊 <strong>Dica:</strong> ETFs como BOVA11 já são diversificados por natureza, pois
+                  representam as 80 maiores empresas da bolsa.</div>
+              </div>
+            </details>
+          </article>
+
+          <article class="learn-card" id="aprender-ir" data-level="avancado">
+            <div class="learn-card-icon" aria-hidden="true">📉</div>
+            <div class="learn-card-level">Avançado</div>
+            <h3 class="learn-card-title">Imposto de Renda nos investimentos</h3>
+            <p class="learn-card-desc">Entenda como o IR impacta seus rendimentos e quais investimentos são isentos.</p>
+            <details class="learn-details">
+              <summary class="learn-summary">Ler mais</summary>
+              <div class="learn-content">
+                <p><strong>Isentos de IR para pessoa física:</strong> LCI, LCA, CRI, CRA, Debêntures incentivadas,
+                  Poupança.</p>
+                <p><strong>Com IR regressivo (renda fixa):</strong></p>
+                <ul>
+                  <li>Até 180 dias: 22,5%</li>
+                  <li>181 a 360 dias: 20%</li>
+                  <li>361 a 720 dias: 17,5%</li>
+                  <li>Acima de 720 dias: 15%</li>
+                </ul>
+                <p><strong>Ações:</strong> Isento até R$ 20 mil/mês em vendas. Acima disso, 15% sobre o lucro (day
+                  trade: 20%).</p>
+              </div>
+            </details>
+          </article>
+
+          <article class="learn-card" id="aprender-tesouro" data-level="avancado">
+            <div class="learn-card-icon" aria-hidden="true">🏛️</div>
+            <div class="learn-card-level">Avançado</div>
+            <h3 class="learn-card-title">Tesouro Direto descomplicado</h3>
+            <p class="learn-card-desc">Os títulos do Tesouro Nacional explicados de forma simples para qualquer pessoa.
+            </p>
+            <details class="learn-details">
+              <summary class="learn-summary">Ler mais</summary>
+              <div class="learn-content">
+                <p><strong>Tesouro Selic (LFT):</strong> Acompanha a Selic. Ótimo para reserva de emergência. Liquidez
+                  diária.</p>
+                <p><strong>Tesouro Prefixado (LTN):</strong> Taxa definida na compra. Bom quando a Selic vai cair. Risco
+                  de mercado se vender antes.</p>
+                <p><strong>Tesouro IPCA+ (NTN-B):</strong> Protege da inflação. Rende IPCA + taxa pré-fixada. Ideal para
+                  longo prazo.</p>
+                <div class="tip-box">🏛️ <strong>Dica:</strong> O Tesouro Direto é a aplicação mais segura do Brasil —
+                  risco soberano.</div>
+              </div>
+            </details>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Glossário -->
+    <section id="glossario" class="glossario-section" aria-labelledby="gloss-title">
+      <div class="container">
+        <header class="section-header">
+          <div class="section-badge">📖 Glossário</div>
+          <h2 id="gloss-title" class="section-title">Dicionário financeiro popular</h2>
+          <p class="section-description">Os termos que mais confundem as pessoas — explicados de forma direta.</p>
+        </header>
+
+        <div class="glossario-search-wrapper">
+          <label for="glossario-search" class="sr-only">Buscar termo no glossário</label>
+          <input type="search" id="glossario-search" class="glossario-search"
+            placeholder="🔍 Buscar um termo... (ex: CDI, CDB, FII)" aria-label="Buscar no glossário" />
+        </div>
+
+        <div class="glossario-grid" id="glossario-grid" aria-live="polite">
+          <!-- Generated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Calculadora de Perfil -->
+    <section class="perfil-section" aria-labelledby="perfil-title">
+      <div class="container">
+        <div class="perfil-card">
+          <div class="perfil-content">
+            <div class="section-badge">🎯 Quiz</div>
+            <h2 id="perfil-title" class="section-title">Qual é seu perfil de investidor?</h2>
+            <p class="section-description">Responda 5 perguntas rápidas e descubra qual estratégia de investimento
+              combina com você.</p>
+            <div class="quiz-container" id="quiz-container">
+              <!-- Quiz generated by JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer" role="contentinfo">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="#" class="logo" aria-label="FinanceFácil">
+              <span class="logo-icon" aria-hidden="true">💰</span>
+              <span class="logo-text">Finance<span class="logo-accent">Fácil</span></span>
+            </a>
+            <p class="footer-desc">Educação financeira gratuita e acessível para todos os brasileiros.</p>
+            <p class="footer-disclaimer">⚠️ Este site é educacional e não constitui consultoria de investimentos.
+              Consulte um profissional certificado antes de investir.</p>
+          </div>
+
+          <nav class="footer-nav" aria-label="Links do rodapé">
+            <h3 class="footer-heading">Ferramentas</h3>
+            <ul role="list">
+              <li><a href="#ferramentas" class="footer-link" data-tab="btn-juros">Juros Compostos</a></li>
+              <li><a href="#ferramentas" class="footer-link" data-tab="btn-aposentadoria">Aposentadoria</a></li>
+              <li><a href="#ferramentas" class="footer-link" data-tab="btn-financiamento">Financiamento</a></li>
+              <li><a href="#ferramentas" class="footer-link" data-tab="btn-inflacao">Inflação Real</a></li>
+              <li><a href="#ferramentas" class="footer-link" data-tab="btn-regra72">Regra do 72</a></li>
+              <li><a href="#ferramentas" class="footer-link" data-tab="btn-orcamento">Orçamento 50/30/20</a></li>
+            </ul>
+          </nav>
+
+          <nav class="footer-nav" aria-label="Links de aprendizado">
+            <h3 class="footer-heading">Aprender</h3>
+            <ul role="list">
+              <li><a href="#aprender-comecar" class="footer-link">Por onde começar</a></li>
+              <li><a href="#aprender-renda-fixa" class="footer-link">Renda Fixa vs Variável</a></li>
+              <li><a href="#aprender-fgc" class="footer-link">Seguro FGC</a></li>
+              <li><a href="#aprender-diversificacao" class="footer-link">Diversificação</a></li>
+              <li><a href="#aprender-ir" class="footer-link">Imposto de Renda</a></li>
+              <li><a href="#aprender-tesouro" class="footer-link">Tesouro Direto</a></li>
+              <li><a href="#glossario" class="footer-link">Glossário</a></li>
+            </ul>
+          </nav>
+        </div>
+
+        <div class="footer-bottom">
+          <p>© 2026 FinanceFácil. Desenvolvido por <a href="https://carlosandemberg.com.br" target="_blank"
+              rel="noopener noreferrer" class="developer-link">Carlos Andemberg</a>.</p>
+          <p class="footer-note">Taxas macroeconômicas (Selic, CDI, Inflação) atualizadas em tempo real via APIs
+            oficiais. Resultados simulados para fins educacionais.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Back to Top -->
+    <button class="back-to-top" id="back-to-top" aria-label="Voltar ao topo" hidden>
+      <span aria-hidden="true">↑</span>
+    </button>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toast-container" role="status" aria-live="polite" aria-atomic="true"></div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
