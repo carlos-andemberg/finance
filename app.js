@@ -1137,9 +1137,22 @@ document.addEventListener('click', (e) => {
           .then(function(d) { return parseFloat(String(d[0] && d[0].valor || '').replace(',', '.')); });
       };
 
+      var BCBAcumulado = function(serie, meses) {
+        return fetch('https://api.bcb.gov.br/dados/serie/bcdata.sgs.' + serie + '/dados/ultimos/' + meses + '?formato=json')
+          .then(function(r) { return r.json(); })
+          .then(function(data) {
+            var fator = 1;
+            data.forEach(function(d) {
+              var val = parseFloat(String(d.valor || '').replace(',', '.'));
+              if (!isNaN(val)) fator *= (1 + val / 100);
+            });
+            return (fator - 1) * 100;
+          });
+      };
+
       var results = await Promise.all([
         BCB(13522),  // IPCA acumulado 12 meses
-        BCB(189),    // IGP-M acumulado 12 meses
+        BCBAcumulado(189, 12),    // IGP-M acumulado 12 meses
         fetch('https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL').then(function(r) { return r.json(); }),
         // BrasilAPI: CDI e Selic já anualizados (% a.a.) — sem confundir com taxa mensal
         fetch('https://brasilapi.com.br/api/taxas/v1').then(function(r) { return r.json(); }),
