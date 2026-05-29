@@ -739,26 +739,36 @@ document.addEventListener('click', (e) => {
   const searchInput = el('glossario-search');
   if (!grid || !searchInput) return;
 
-  const termos = [
-    { term: 'CDI', def: 'Certificado de Depósito Interbancário. É a taxa de juros que os bancos cobram entre si para empréstimos de curtíssimo prazo. A maioria dos CDBs paga um percentual do CDI.', ex: 'Exemplo: CDB que paga 100% do CDI = paga ~10,4% ao ano (hoje).' },
-    { term: 'Selic', def: 'Taxa básica de juros da economia brasileira, definida pelo Banco Central. Influencia todos os outros juros do país — do financiamento ao investimento.', ex: 'Exemplo: Selic em 10,5% a.a. significa que o Tesouro Selic rende ~10,5% ao ano.' },
-    { term: 'IPCA', def: 'Índice Nacional de Preços ao Consumidor Amplo. É o indicador oficial da inflação no Brasil, medido pelo IBGE mensalmente.', ex: 'Exemplo: IPCA de 4,83% significa que os preços subiram 4,83% nos últimos 12 meses.' },
-    { term: 'FGC', def: 'Fundo Garantidor de Créditos. Protege seu dinheiro em CDB, LCI, LCA e poupança em até R$ 250.000 por CPF por instituição financeira.', ex: 'Exemplo: Se um banco quebrar, você recebe até R$ 250 mil de volta.' },
-    { term: 'CDB', def: 'Certificado de Depósito Bancário. Você empresta dinheiro a um banco e ele paga juros. Quanto menor o banco, maior a taxa oferecida.', ex: 'Exemplo: CDB de 110% do CDI em banco médio = ~11,4% a.a.' },
-    { term: 'LCI / LCA', def: 'Letras de Crédito Imobiliário e do Agronegócio. Isentas de IR para pessoa física. Têm carência mínima antes do resgate.', ex: 'Exemplo: LCI de 90% do CDI sem IR = equivale a um CDB de ~105% do CDI com IR.' },
-    { term: 'FII', def: 'Fundo de Investimento Imobiliário. Investe em imóveis ou títulos imobiliários e distribui dividendos mensais isentos de IR para pessoas físicas.', ex: 'Exemplo: MXRF11 distribui ~R$ 0,11 por cota por mês.' },
-    { term: 'ETF', def: 'Exchange Traded Fund. Fundo de índice negociado na bolsa que replica o desempenho de um índice, como o Ibovespa (BOVA11) ou o S&P 500 (IVVB11).', ex: 'Exemplo: BOVA11 = você investe nas ~80 maiores empresas do Brasil de uma vez.' },
-    { term: 'Juros Compostos', def: 'Juros que incidem sobre o valor principal mais os juros acumulados de períodos anteriores. O "juro sobre juro" que faz o dinheiro crescer exponencialmente.', ex: 'Exemplo: R$ 1.000 a 10% a.a. por 30 anos = R$ 17.449 (não R$ 4.000)!' },
-    { term: 'Tesouro Direto', def: 'Programa do governo federal para venda de títulos públicos para pessoas físicas. É o investimento mais seguro do Brasil — risco soberano.', ex: 'Tipos: Tesouro Selic (liquidez), IPCA+ (longo prazo), Prefixado (taxa garantida).' },
-    { term: 'Renda Fixa', def: 'Categoria de investimentos onde a regra de rendimento é definida na contratação. Você sabe (ou consegue estimar) quanto vai receber.', ex: 'Exemplos: CDB, LCI, LCA, Tesouro Direto, Debêntures.' },
-    { term: 'Renda Variável', def: 'Investimentos cujo retorno não é predefinido. Podem gerar lucros maiores que renda fixa, mas também perdas.', ex: 'Exemplos: Ações, ETFs, FIIs, BDRs, Fundos Multimercado.' },
-    { term: 'B3', def: 'A bolsa de valores brasileira (Brasil, Bolsa, Balcão). Onde são negociadas ações, ETFs, FIIs, BDRs e outros ativos.', ex: 'Equivale à NYSE (Nova York) ou London Stock Exchange (Londres).' },
-    { term: 'Dividendos', def: 'Parcela do lucro de uma empresa ou fundo distribuída aos acionistas/cotistas. FIIs são obrigados a distribuir 95% do lucro semestral.', ex: 'Exemplo: Uma ação com dividend yield de 5% paga R$ 5 ao ano para cada R$ 100 investidos.' },
-    { term: 'Ibovespa', def: 'Índice que mede o desempenho das principais ações da B3. É o principal termômetro do mercado de ações brasileiro.', ex: 'Ibovespa em 130.000 pontos: se subir para 143.000, valorizou 10%.' },
-    { term: 'P/L (Preço/Lucro)', def: 'Indica quantos anos de lucro você paga ao comprar uma ação pelo preço atual. Quanto menor, mais barata pode ser a ação.', ex: 'Ação com P/L 10 = você paga 10 vezes o lucro anual da empresa.' },
-    { term: 'BDR', def: 'Brazilian Depositary Receipt. Certificados que representam ações de empresas estrangeiras negociados na B3 em reais.', ex: 'AAPL34 = Apple. MSFT34 = Microsoft. GOGL34 = Google.' },
-    { term: 'Taxa de Administração', def: 'Porcentagem cobrada anualmente por fundos para cobrir custos de gestão. Quanto menor, melhor. Evite fundos com taxa acima de 1% a.a.', ex: 'Fundo com 2% a.a. de taxa consome quase toda a inflação do ano.' },
-  ];
+  function getTermos(r) {
+    // Valores de fallback ou reais
+    const selic = r ? f2(r.selic) : '10,50';
+    const cdi = r ? f2(r.cdi) : '10,40';
+    const ipca = r ? f2(r.ipca) : '4,83';
+    const cdb110 = r ? f2(r.cdi * 1.1) : '11,44';
+    const lci90 = r ? f2(r.cdi * 0.9) : '9,36';
+    const lci_equiv = r ? f2((r.cdi * 0.9) / 0.825) : '105'; // approx equivalence (17.5% IR)
+
+    return [
+      { term: 'CDI', def: 'Certificado de Depósito Interbancário. É a taxa de juros que os bancos cobram entre si para empréstimos de curtíssimo prazo. A maioria dos CDBs paga um percentual do CDI.', ex: `Exemplo: CDB que paga 100% do CDI = paga ~${cdi}% ao ano (hoje).` },
+      { term: 'Selic', def: 'Taxa básica de juros da economia brasileira, definida pelo Banco Central. Influencia todos os outros juros do país — do financiamento ao investimento.', ex: `Exemplo: Selic em ${selic}% a.a. significa que o Tesouro Selic rende ~${selic}% ao ano.` },
+      { term: 'IPCA', def: 'Índice Nacional de Preços ao Consumidor Amplo. É o indicador oficial da inflação no Brasil, medido pelo IBGE mensalmente.', ex: `Exemplo: IPCA de ${ipca}% significa que os preços subiram ${ipca}% nos últimos 12 meses.` },
+      { term: 'FGC', def: 'Fundo Garantidor de Créditos. Protege seu dinheiro em CDB, LCI, LCA e poupança em até R$ 250.000 por CPF por instituição financeira.', ex: 'Exemplo: Se um banco quebrar, você recebe até R$ 250 mil de volta.' },
+      { term: 'CDB', def: 'Certificado de Depósito Bancário. Você empresta dinheiro a um banco e ele paga juros. Quanto menor o banco, maior a taxa oferecida.', ex: `Exemplo: CDB de 110% do CDI em banco médio = ~${cdb110}% a.a.` },
+      { term: 'LCI / LCA', def: 'Letras de Crédito Imobiliário e do Agronegócio. Isentas de IR para pessoa física. Têm carência mínima antes do resgate.', ex: `Exemplo: LCI de 90% do CDI sem IR (~${lci90}%) = equivale a um CDB de ~${lci_equiv}% do CDI com IR.` },
+      { term: 'FII', def: 'Fundo de Investimento Imobiliário. Investe em imóveis ou títulos imobiliários e distribui dividendos mensais isentos de IR para pessoas físicas.', ex: 'Exemplo: MXRF11 distribui ~R$ 0,11 por cota por mês.' },
+      { term: 'ETF', def: 'Exchange Traded Fund. Fundo de índice negociado na bolsa que replica o desempenho de um índice, como o Ibovespa (BOVA11) ou o S&P 500 (IVVB11).', ex: 'Exemplo: BOVA11 = você investe nas ~80 maiores empresas do Brasil de uma vez.' },
+      { term: 'Juros Compostos', def: 'Juros que incidem sobre o principal e sobre juros acumulados. O "juro sobre juro" que faz o dinheiro crescer exponencialmente.', ex: `Exemplo: R$ 1.000 a 10% a.a. por 30 anos = R$ 17.449 (não R$ 4.000)!` },
+      { term: 'Tesouro Direto', def: 'Programa do governo federal para venda de títulos públicos para pessoas físicas. É o investimento mais seguro do Brasil — risco soberano.', ex: 'Tipos: Tesouro Selic (liquidez), IPCA+ (longo prazo), Prefixado (taxa garantida).' },
+      { term: 'Renda Fixa', def: 'Categoria de investimentos onde a regra de rendimento é definida na contratação. Você sabe (ou consegue estimar) quanto vai receber.', ex: 'Exemplos: CDB, LCI, LCA, Tesouro Direto, Debêntures.' },
+      { term: 'Renda Variável', def: 'Investimentos cujo retorno não é predefinido. Podem gerar lucros maiores que renda fixa, mas também perdas.', ex: 'Exemplos: Ações, ETFs, FIIs, BDRs, Fundos Multimercado.' },
+      { term: 'B3', def: 'A bolsa de valores brasileira (Brasil, Bolsa, Balcão). Onde são negociadas ações, ETFs, FIIs, BDRs e outros ativos.', ex: 'Equivale à NYSE (Nova York) ou London Stock Exchange (Londres).' },
+      { term: 'Dividendos', def: 'Parcela do lucro distribuída aos acionistas/cotistas. FIIs distribuem 95% do lucro semestral (isento de IR).', ex: 'Exemplo: Uma ação com dividend yield de 5% paga R$ 5 ao ano para cada R$ 100 investidos.' },
+      { term: 'Ibovespa', def: 'Índice que mede o desempenho das principais ações da B3. É o principal termômetro do mercado de ações brasileiro.', ex: 'Ibovespa em 130.000 pontos: se subir para 143.000, valorizou 10%.' },
+      { term: 'P/L (Preço/Lucro)', def: 'Indica quantos anos de lucro você paga ao comprar uma ação pelo preço atual. Quanto menor, teoricamente mais barata pode estar a ação.', ex: 'Ação com P/L 10 = você paga 10 vezes o lucro anual da empresa.' },
+      { term: 'BDR', def: 'Brazilian Depositary Receipt. Certificados que representam ações de empresas estrangeiras negociados na B3 em reais.', ex: 'AAPL34 = Apple. MSFT34 = Microsoft. GOGL34 = Google.' },
+      { term: 'Taxa de Administração', def: 'Porcentagem cobrada anualmente por fundos para cobrir custos de gestão. Evite fundos de renda fixa com taxa alta.', ex: 'Fundo com 2% a.a. de taxa consome quase todo seu ganho real acima da inflação.' },
+    ];
+  }
 
   function renderTermos(lista) {
     grid.innerHTML = '';
@@ -778,17 +788,23 @@ document.addEventListener('click', (e) => {
     }
   }
 
-  searchInput.addEventListener('input', () => {
-    const q = searchInput.value.toLowerCase().trim();
-    const filtered = q ? termos.filter(t =>
-      t.term.toLowerCase().includes(q) ||
-      t.def.toLowerCase().includes(q) ||
-      (t.ex && t.ex.toLowerCase().includes(q))
-    ) : termos;
+  window.updateGlossario = function(r) {
+    window.lastGlossarioRates = r || window.lastGlossarioRates || null;
+    const termoInput = searchInput.value.toLowerCase();
+    const lista = getTermos(window.lastGlossarioRates);
+    
+    // Filter
+    const filtered = lista.filter(t => 
+      t.term.toLowerCase().includes(termoInput) || 
+      t.def.toLowerCase().includes(termoInput)
+    );
+    
     renderTermos(filtered);
-  });
+  };
 
-  renderTermos(termos);
+  updateGlossario(null);
+
+  searchInput.addEventListener('input', () => updateGlossario());
 })();
 
 // ── Quiz de Perfil ────────────────────────────────────────────
@@ -1101,8 +1117,12 @@ document.addEventListener('click', (e) => {
     applyToHints(r);
     applyToQuickBtns(r, poupanca);
     applyToComparativo(r, poupanca);
-    applyToComparadorCards(r, poupanca); // Atualiza os cards estáticos
+    applyToComparadorCards(r, poupanca);
     applyToForms(r);
+    
+    if (window.updateGlossario) {
+      window.updateGlossario(r);
+    }
   }
 
   async function fetchRates() {
