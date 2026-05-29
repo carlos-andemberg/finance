@@ -740,6 +740,8 @@ document.addEventListener('click', (e) => {
   if (!grid || !searchInput) return;
 
   function getTermos(r) {
+    const f2 = (n) => typeof n === 'number' && !isNaN(n) ? n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : n;
+    
     // Valores de fallback ou reais
     const selic = r ? f2(r.selic) : '10,50';
     const cdi = r ? f2(r.cdi) : '10,40';
