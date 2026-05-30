@@ -5177,7 +5177,7 @@ if (suspenseOverlay) {
     // No button
     if (btnSuspenseNo) {
       btnSuspenseNo.addEventListener('click', () => {
-        window.location.href = 'index.html#aprender';
+        window.location.href = '../index.html#aprender';
       });
     }
     
