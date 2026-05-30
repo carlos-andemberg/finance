@@ -34,7 +34,25 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;600;700;800&display=swap"
     rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="landing.css" />
+  
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "FinanceFácil",
+    "url": "https://investebem.carlosandemberg.com.br",
+    "description": "Ferramentas financeiras, calculadoras de juros compostos e simuladores de investimento.",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "BRL"
+    }
+  }
+  </script>
 </head>
 
 <body>
@@ -54,6 +72,7 @@
         <li><a href="#aprender" class="nav-link">Aprender</a></li>
         <li><a href="#comparador" class="nav-link">Comparar</a></li>
         <li><a href="#glossario" class="nav-link">Glossário</a></li>
+        <li><a href="praticar" class="nav-link" style="color: var(--color-accent); font-weight: 700;">Aprenda na Prática</a></li>
       </ul>
 
       <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menu" aria-expanded="false"
@@ -69,6 +88,7 @@
         <li><a href="#aprender" class="mobile-nav-link">📚 Aprender</a></li>
         <li><a href="#comparador" class="mobile-nav-link">⚖️ Comparar</a></li>
         <li><a href="#glossario" class="mobile-nav-link">📖 Glossário</a></li>
+        <li><a href="praticar" class="mobile-nav-link" style="color: var(--color-accent);">🎮 Aprenda na Prática</a></li>
       </ul>
     </div>
   </header>
@@ -90,8 +110,12 @@
           para investir melhor e alcançar sua liberdade financeira.
         </p>
         <div class="hero-actions">
-          <a href="#ferramentas" class="btn btn-primary">Explorar ferramentas</a>
-          <a href="#aprender" class="btn btn-ghost">Como começar →</a>
+          <a href="#ferramentas" class="btn btn-primary"
+            aria-label="Ir para seção de ferramentas de investimento">Explorar Ferramentas</a>
+          <a href="#aprender" class="btn btn-ghost"
+            aria-label="Aprender os conceitos básicos">Como Começar</a>
+          <a href="praticar" class="btn btn-ghost"
+            aria-label="Testar na prática">🎮 Aprenda na Prática</a>
         </div>
 
         <!-- Live Rates Strip -->

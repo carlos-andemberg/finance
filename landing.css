@@ -741,7 +741,18 @@ legend { font-family: inherit; }
 .expense-item { display: flex; flex-direction: column; gap: var(--space-2); }
 .expense-label { font-size: var(--text-xs); font-weight: 600; color: var(--color-text-muted); }
 
-/* ── Results Area ── */
+/* Pulse animation para o Simulador */
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(46, 204, 113, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); }
+}
+
+.pulse {
+  animation: pulseGlow 2s infinite;
+}
+
+/* ── Components: Forms ── */
 .calc-results-area {
   background: var(--color-bg-card);
   border: 1px solid var(--color-border);

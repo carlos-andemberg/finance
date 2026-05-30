@@ -757,7 +757,7 @@ document.addEventListener('click', (e) => {
       { term: 'FGC', def: 'Fundo Garantidor de Créditos. Protege seu dinheiro em CDB, LCI, LCA e poupança em até R$ 250.000 por CPF por instituição financeira.', ex: 'Exemplo: Se um banco quebrar, você recebe até R$ 250 mil de volta.' },
       { term: 'CDB', def: 'Certificado de Depósito Bancário. Você empresta dinheiro a um banco e ele paga juros. Quanto menor o banco, maior a taxa oferecida.', ex: `Exemplo: CDB de 110% do CDI em banco médio = ~${cdb110}% a.a.` },
       { term: 'LCI / LCA', def: 'Letras de Crédito Imobiliário e do Agronegócio. Isentas de IR para pessoa física. Têm carência mínima antes do resgate.', ex: `Exemplo: LCI de 90% do CDI sem IR (~${lci90}%) = equivale a um CDB de ~${lci_equiv}% do CDI com IR.` },
-      { term: 'FII', def: 'Fundo de Investimento Imobiliário. Investe em imóveis ou títulos imobiliários e distribui dividendos mensais isentos de IR para pessoas físicas.', ex: 'Exemplo: MXRF11 distribui ~R$ 0,11 por cota por mês.' },
+      { term: 'FII', def: 'Fundo de Investimento Imobiliário. Investe em imóveis ou títulos imobiliários e distribui dividendos mensais isentos de IR para pessoas físicas.', ex: 'Exemplo: HGLG11 (fundo de galpões) deposita o aluguel na sua conta todo mês.' },
       { term: 'ETF', def: 'Exchange Traded Fund. Fundo de índice negociado na bolsa que replica o desempenho de um índice, como o Ibovespa (BOVA11) ou o S&P 500 (IVVB11).', ex: 'Exemplo: BOVA11 = você investe nas ~80 maiores empresas do Brasil de uma vez.' },
       { term: 'Juros Compostos', def: 'Juros que incidem sobre o principal e sobre juros acumulados. O "juro sobre juro" que faz o dinheiro crescer exponencialmente.', ex: `Exemplo: R$ 1.000 a 10% a.a. por 30 anos = R$ 17.449 (não R$ 4.000)!` },
       { term: 'Tesouro Direto', def: 'Programa do governo federal para venda de títulos públicos para pessoas físicas. É o investimento mais seguro do Brasil — risco soberano.', ex: 'Tipos: Tesouro Selic (liquidez), IPCA+ (longo prazo), Prefixado (taxa garantida).' },
@@ -1373,3 +1373,17 @@ document.addEventListener('click', (e) => {
 })();
 
 console.log('🚀 FinanceFácil carregado com sucesso!');
+
+// ── Proteção Básica de Frontend ───────────────────────────────
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('keydown', e => {
+  if (
+    e.key === 'F12' ||
+    (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C' || e.key === 'J')) ||
+    (e.ctrlKey && (e.key === 'U' || e.key === 'u')) ||
+    (e.metaKey && e.altKey && (e.key === 'I' || e.key === 'C' || e.key === 'J')) ||
+    (e.metaKey && (e.key === 'U' || e.key === 'u'))
+  ) {
+    e.preventDefault();
+  }
+});

@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="view-transition" content="same-origin" />
+  <meta name="description"
+    content="Simule investimentos reais no passado! Descubra como R$ 510 renderiam de 2010 até hoje no Tesouro Direto, CDBs e Ações." />
+  <meta name="keywords" content="simulador de investimentos, rentabilidade histórica, tesouro direto, ibovespa, ações, cdi, ipca, investir" />
+  <meta name="theme-color" content="#070e1a" />
+  
+  <!-- SEO & Open Graph -->
+  <link rel="canonical" href="https://investebem.carlosandemberg.com.br/praticar" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://investebem.carlosandemberg.com.br/praticar" />
+  <meta property="og:title" content="Corretora Investe Bem — O Simulador do Passado" />
+  <meta property="og:description" content="Simule investimentos reais no passado! Descubra como seu dinheiro renderia de 2010 até hoje." />
+  <meta property="og:image" content="https://investebem.carlosandemberg.com.br/logo.png" />
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://investebem.carlosandemberg.com.br/praticar" />
+  <meta property="twitter:title" content="Corretora Investe Bem — O Simulador do Passado" />
+  <meta property="twitter:description" content="Simule investimentos reais no passado! Descubra como seu dinheiro renderia de 2010 até hoje." />
+  <meta property="twitter:image" content="https://investebem.carlosandemberg.com.br/logo.png" />
+
+  <title>Corretora Investe Bem — Simulador Histórico de Investimentos</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@600;700;800&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="simulador.css" />
+</head>
+
+<body>
+  <!-- ═══ SUSPENSE OVERLAY ═══ -->
+  <div id="suspense-overlay" class="suspense-overlay">
+    <div class="suspense-content">
+      <h2 class="suspense-title">Hora de alcançar um novo nível?</h2>
+      <div class="suspense-actions" id="suspense-actions">
+        <button class="btn-suspense btn-suspense-no" id="btn-suspense-no">Ainda não</button>
+        <button class="btn-suspense btn-suspense-yes" id="btn-suspense-yes">Sim, vamos lá</button>
+      </div>
+      <div class="suspense-loader-wrap" id="suspense-loader" style="display: none;">
+        <svg class="suspense-svg" viewBox="0 0 100 100">
+          <circle class="suspense-bg" cx="50" cy="50" r="40"></circle>
+          <circle class="suspense-progress" cx="50" cy="50" r="40"></circle>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <a href="index.html" class="back-link" aria-label="Voltar ao FinanceFácil">← Início</a>
+      <div class="logo">🏦 <span>Corretora Investe Bem</span></div>
+      <button class="btn-help" id="btn-restart-tutorial" aria-label="Iniciar Tutorial" title="Ver Tutorial">?</button>
+    </div>
+
+    <div class="topbar-year">
+      <span>Você está em</span>
+      <strong id="current-date-display">Jan 2010</strong>
+    </div>
+
+    <div class="topbar-stats" aria-live="polite" aria-atomic="true">
+      <div class="stat-pill">
+        <span class="stat-pill-label">Saldo</span>
+        <span class="stat-pill-value cyan" id="hdr-balance">R$ 510,00</span>
+      </div>
+      <div class="stat-pill">
+        <span class="stat-pill-label">Patrimônio</span>
+        <span class="stat-pill-value purple" id="hdr-patrimony">R$ 510,00</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTEXT BAR -->
+  <div class="context-bar">
+    <div class="ctx-event" id="ctx-event-icon" aria-hidden="true">📅</div>
+    <div class="ctx-tip" id="ctx-event-text" aria-live="polite" aria-atomic="true">Bem-vindo! Você recebeu R$ 510,00 (salário mínimo de 2010). Escolha onde
+      investir.</div>
+    <div class="ctx-progress">
+      <span class="progress-label" id="progress-label">1 / 36</span>
+      <div class="progress-track" role="progressbar" aria-label="Progresso">
+        <div class="progress-fill" id="progress-fill" style="width:3%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN APP -->
+  <div class="app-layout">
+
+    <!-- LEFT: BROKER -->
+    <div class="broker-main">
+      <div class="tabs" role="tablist">
+        <button class="tab-btn active" role="tab" data-tab="acoes" aria-selected="true">📈 Ações e ETFs</button>
+        <button class="tab-btn" role="tab" data-tab="tesouro" aria-selected="false">🏦 Tesouro Direto</button>
+        <button class="tab-btn" role="tab" data-tab="fixa" aria-selected="false">💼 Renda Fixa</button>
+      </div>
+
+      <div class="assets-scroll">
+        <table class="assets-table" role="table">
+          <colgroup>
+            <col />
+            <col />
+            <col />
+            <col class="col-chart" />
+            <col />
+          </colgroup>
+          <thead>
+            <tr>
+              <th>Ativo</th>
+              <th>Preço</th>
+              <th>Mês</th>
+              <th class="col-chart">Histórico</th>
+              <th style="text-align:center; padding-right: 16px;">Ação</th>
+            </tr>
+          </thead>
+          <tbody id="assets-tbody"></tbody>
+        </table>
+      </div>
+
+      <!-- Buy Panel -->
+      <div class="buy-panel" id="buy-panel">
+        <div class="buy-panel-header">
+          <div>
+            <div class="buy-panel-asset" id="buy-panel-name">Selecione um investimento</div>
+            <div class="buy-panel-price" id="buy-panel-price">—</div>
+          </div>
+          <button class="btn-close-panel" id="btn-close-panel" aria-label="Fechar painel">✕</button>
+        </div>
+        <div class="buy-form">
+          <div class="buy-input-group">
+            <div class="buy-input-label">Quantidade</div>
+            <div style="display:flex; gap:6px;">
+              <button class="btn-qty-add" onclick="window.addQty(-10)">-10</button>
+              <button class="btn-qty-add" onclick="window.addQty(-5)">-5</button>
+              <input type="number" class="buy-input" id="buy-qty" min="1" value="1" inputmode="numeric"
+                onfocus="if(this.value=='1')this.value=''"
+                onblur="if(this.value=='')this.value='1'; window.updateBuyTotal && window.updateBuyTotal()" />
+              <button class="btn-qty-add" onclick="window.addQty(5)">+5</button>
+              <button class="btn-qty-add" onclick="window.addQty(10)">+10</button>
+            </div>
+          </div>
+          <div class="buy-total-display">
+            <div class="buy-total-label">Valor Total</div>
+            <div class="buy-total-value" id="buy-total">R$ 0,00</div>
+            <div class="buy-balance-warn" id="buy-warn" style="display:none" role="alert">Saldo insuficiente</div>
+          </div>
+          <div class="buy-actions">
+            <button class="btn-confirm-buy" id="btn-confirm-buy" disabled>Comprar ↗</button>
+            <button class="btn-confirm-sell" id="btn-confirm-sell" disabled>Vender ↘</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: PORTFOLIO -->
+    <aside class="portfolio-panel" aria-label="Minha Carteira">
+      <div class="panel-header">
+        Minha Carteira
+        <span style="color:var(--muted);font-size:0.75rem;font-weight:400" id="portfolio-count">0 investimentos</span>
+      </div>
+      <div class="portfolio-scroll" id="portfolio-list">
+        <div class="portfolio-empty-msg">Carteira vazia.<br>Selecione um investimento acima.</div>
+      </div>
+      <div class="portfolio-summary" id="portfolio-summary" style="display:none">
+        <div class="ps-row"><span class="ps-label">Tirou do Bolso</span><span id="ps-invested" style="color:var(--accent)">R$ 0,00</span></div>
+        <div class="ps-row"><span class="ps-label">Valor atual</span><span id="ps-current" style="color:var(--purple)">R$ 0,00</span></div>
+        <div class="ps-row"><span class="ps-label">Proventos</span><span id="ps-divs" style="color:var(--yellow)">R$
+            0,00</span></div>
+        <div class="ps-row"><span class="ps-label">Lucro/Prejuízo</span><span id="ps-pnl">R$ 0,00</span></div>
+        <button class="btn-report" id="btn-show-report">📊 Relatório Detalhado</button>
+      </div>
+    </aside>
+  </div>
+
+  <!-- ADVANCE FOOTER -->
+  <footer class="advance-footer">
+    <button class="btn-advance-month" id="btn-advance">Fechar Mês e Avançar →</button>
+    <button class="btn-reset-small" id="btn-reset" aria-label="Recomeçar simulação">↺ Recomeçar</button>
+  </footer>
+
+  <!-- ═══ MONTH END MODAL ═══ -->
+  <div class="modal-overlay" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-box">
+      <div class="modal-drag-handle" aria-hidden="true"></div>
+      <div class="modal-top">
+        <div class="modal-icon" id="modal-icon" aria-hidden="true">📅</div>
+        <div class="modal-title" id="modal-title">Fechamento de Mês</div>
+        <div class="modal-subtitle" id="modal-subtitle">O mercado fechou.</div>
+      </div>
+      <div class="modal-body">
+        <div class="modal-event-box" id="modal-event" style="display:none">
+          <div class="modal-event-title" id="modal-event-title">📰 Evento</div>
+          <div class="modal-event-desc" id="modal-event-desc"></div>
+        </div>
+        <div id="modal-divs-wrap">
+          <div style="font-size:0.78rem;color:var(--muted);margin-bottom:8px">Proventos deste mês:</div>
+          <div id="modal-divs-list"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-modal-primary" id="btn-modal-ok">Entendi — Próximo Mês</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ CONFIRM MODAL ═══ -->
+  <div class="modal-overlay" id="confirm-overlay" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+    <div class="modal-box">
+      <div class="modal-drag-handle" aria-hidden="true"></div>
+      <div class="modal-top">
+        <div class="modal-icon" aria-hidden="true">⚠️</div>
+        <div class="modal-title" id="confirm-title">Confirmação</div>
+      </div>
+      <div class="modal-body">
+        <p class="confirm-message" id="confirm-message"></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-confirm-cancel" id="confirm-cancel">Cancelar</button>
+        <button class="btn-confirm-danger" id="confirm-ok"
+          style="background:var(--primary); color:#070e1a;">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ REPORT MODAL ═══ -->
+  <div class="modal-overlay" id="report-overlay" role="dialog" aria-modal="true" aria-labelledby="report-title">
+    <div class="modal-box">
+      <div class="modal-drag-handle" aria-hidden="true"></div>
+      <div class="modal-top">
+        <div class="modal-icon" aria-hidden="true">📊</div>
+        <div class="modal-title" id="report-title">Relatório da Carteira</div>
+        <button class="btn-close-modal" id="btn-close-report" aria-label="Fechar">✕</button>
+      </div>
+      <div class="modal-body">
+        
+        <!-- KPIs Overview -->
+        <div class="report-kpi-grid">
+          <div class="report-kpi-box">
+            <div class="kpi-label">Investido</div>
+            <div class="kpi-value blue" id="rep-invested">R$ 0,00</div>
+          </div>
+          <div class="report-kpi-box">
+            <div class="kpi-label">Patrimônio Total</div>
+            <div class="kpi-value purple" id="rep-total">R$ 0,00</div>
+          </div>
+          <div class="report-kpi-box">
+            <div class="kpi-label">Lucro Total</div>
+            <div class="kpi-value" id="rep-profit">R$ 0,00</div>
+          </div>
+          <div class="report-kpi-box">
+            <div class="kpi-label">Dividendos</div>
+            <div class="kpi-value yellow" id="rep-divs">R$ 0,00</div>
+          </div>
+          <div class="report-kpi-box">
+            <div class="kpi-label">Rentabilidade</div>
+            <div class="kpi-value" id="rep-roi">0,00%</div>
+          </div>
+        </div>
+
+        <!-- Asset Allocation Progress Bar -->
+        <div style="margin: 24px 0 16px 0;">
+          <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:var(--muted); margin-bottom:6px; font-weight:600; text-transform:uppercase;">
+            <span>Ações/ETFs: <strong id="rep-var-val" style="color:var(--primary)">0%</strong></span>
+            <span>Renda Fixa: <strong id="rep-fix-val" style="color:var(--yellow)">0%</strong></span>
+            <span>Caixa: <strong id="rep-cash-val" style="color:var(--muted)">0%</strong></span>
+          </div>
+          <div class="rep-allocation-bar">
+            <div id="rep-bar-var" class="rep-bar-segment" style="background:var(--primary); width:0%;"></div>
+            <div id="rep-bar-fix" class="rep-bar-segment" style="background:var(--yellow); width:0%;"></div>
+            <div id="rep-bar-cash" class="rep-bar-segment" style="background:var(--border-hi); width:0%;"></div>
+          </div>
+        </div>
+
+        <p id="report-insight" style="font-size:0.85rem; color:var(--text); line-height:1.4; margin-bottom:20px; text-align:center;"></p>
+
+        <!-- Breakdown Table -->
+        <h4 style="font-size:0.85rem; text-transform:uppercase; color:var(--muted); letter-spacing:0.8px; margin-bottom:10px;">Seus Investimentos</h4>
+        <div class="report-table-scroll">
+          <table class="report-table">
+            <thead>
+              <tr>
+                <th>Investimento</th>
+                <th style="text-align:right">Quantidade</th>
+                <th style="text-align:right">Preço Médio</th>
+                <th style="text-align:right">Preço Atual</th>
+                <th style="text-align:right">Dividendos</th>
+                <th style="text-align:right">Saldo</th>
+                <th style="text-align:right">Lucro/Prejuízo</th>
+                <th style="text-align:right">Retorno</th>
+              </tr>
+            </thead>
+            <tbody id="report-tbody">
+              <!-- Renderized via JS -->
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ FINAL OVERLAY ═══ -->
+  <div class="final-overlay" id="final-overlay" role="main" aria-label="Resultado final">
+    <div class="final-header">
+      <div class="logo">🏆 <span>Resultado — Corretora Investe Bem</span></div>
+    </div>
+    <div class="final-body">
+      <div style="text-align:center;margin-bottom:20px">
+        <div style="font-size:0.8rem;color:var(--muted);margin-bottom:4px">Seu Dinheiro Total (Conta + Investimentos):
+        </div>
+        <div id="final-headline"
+          style="font-family:var(--heading);font-size:2.2rem;font-weight:800;color:var(--purple)">R$ 0,00</div>
+
+        <div
+          style="display:flex; justify-content:center; flex-wrap:wrap; gap: 10px; margin-top: 14px; font-size: 0.85rem;">
+          <div
+            style="background:var(--bg-card); padding:8px 14px; border-radius:var(--r-md); border:1px solid var(--border);">
+            <span style="color:var(--muted)">Dinheiro Parado:</span>
+            <strong id="final-balance" style="color:var(--cyan); margin-left:4px;">R$ 0,00</strong>
+          </div>
+          <div
+            style="background:var(--bg-card); padding:8px 14px; border-radius:var(--r-md); border:1px solid var(--border);">
+            <span style="color:var(--muted)">Dinheiro Rendendo:</span>
+            <strong id="final-invested-val" style="color:var(--accent); margin-left:4px;">R$ 0,00</strong>
+          </div>
+        </div>
+      </div>
+      <div class="final-kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">Saiu do seu bolso</div>
+          <div class="kpi-value blue" id="kpi-invested">R$ 0</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Dividendos Ganhos</div>
+          <div class="kpi-value yellow" id="kpi-divs">R$ 0</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Lucro em %</div>
+          <div class="kpi-value green" id="kpi-return">0%</div>
+        </div>
+      </div>
+
+      <div class="timeline-section">
+        <div class="timeline-title">📊 E se deixasse render até 2025?</div>
+        <div class="timeline-sub">Arraste a barra para viajar no tempo! <strong>O robô pega seus dividendos e compra mais ações para você automaticamente (Efeito Bola de Neve).</strong></div>
+        <input type="range" class="timeline-slider" id="timeline-slider" min="2012" max="2025" value="2012" step="1" />
+        <div class="timeline-labels"><span>2012</span><span>2015</span><span>2020</span><span>2025</span></div>
+        <div class="timeline-value-display">
+          <div>
+            <div class="tvd-label">Ano projetado</div>
+            <div class="tvd-year" id="tvd-year">2012</div>
+          </div>
+          <div style="text-align:right">
+            <div class="tvd-label">Seu Patrimônio Total</div>
+            <div class="tvd-value" id="tvd-value">R$ 0,00</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="final-portfolio" id="final-portfolio-breakdown"></div>
+
+      <button class="btn-restart" id="btn-restart-final">🔄 Recomeçar do Zero</button>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- TUTORIAL TOUR -->
+  <div class="tutorial-overlay hidden" id="tutorial-overlay">
+    <div class="tutorial-hole" id="tutorial-hole"></div>
+  </div>
+  <div class="tutorial-popup hidden" id="tutorial-popup" role="dialog" aria-modal="true">
+    <div class="tut-arrow" id="tut-arrow"></div>
+    <div class="tut-content">
+      <div class="tut-title" id="tut-title">Título</div>
+      <div class="tut-text" id="tut-text">Texto explicativo.</div>
+    </div>
+    <div class="tut-footer">
+      <div class="tut-dots" id="tut-dots"></div>
+      <div class="tut-controls">
+        <button class="tut-btn-skip" id="tut-skip">Pular</button>
+        <button class="tut-btn-nav" id="tut-prev">Anterior</button>
+        <button class="tut-btn-nav primary" id="tut-next">Próximo ➔</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="simulador.js"></script>
+</body>
+
+</html>
