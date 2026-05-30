@@ -5174,24 +5174,71 @@ if (suspenseOverlay) {
     // Show overlay
     document.body.style.overflow = 'hidden';
     
+    const title = document.getElementById('suspense-title');
+    
+    async function typeText(text, speed = 50) {
+      title.textContent = '';
+      const chars = Array.from(text);
+      for (let char of chars) {
+        title.textContent += char;
+        await new Promise(r => setTimeout(r, speed));
+      }
+    }
+
+    async function eraseText(speed = 30) {
+      const chars = Array.from(title.textContent);
+      while (chars.length > 0) {
+        chars.pop();
+        title.textContent = chars.join('');
+        await new Promise(r => setTimeout(r, speed));
+      }
+    }
+    
+    // Start typing initial question
+    setTimeout(async () => {
+      await typeText('Hora de alcançar um novo nível?', 50);
+      if(suspenseActions) suspenseActions.style.display = 'flex';
+    }, 500);
+    
     // No button
     if (btnSuspenseNo) {
-      btnSuspenseNo.addEventListener('click', () => {
-        window.location.href = '../#aprender';
+      btnSuspenseNo.addEventListener('click', async () => {
+        if(suspenseActions) suspenseActions.style.display = 'none';
+        
+        await eraseText(30);
+        await typeText('Então tá 👋', 60);
+        
+        if(suspenseLoader) suspenseLoader.style.display = 'block';
+        void suspenseLoader.offsetWidth;
+        suspenseOverlay.classList.add('loading-active-fast');
+        
+        setTimeout(() => {
+          window.location.href = '../#aprender';
+        }, 2000);
       });
     }
     
     // Yes button
     if (btnSuspenseYes) {
-      btnSuspenseYes.addEventListener('click', () => {
-        // Hide buttons, show loader, start animation
+      btnSuspenseYes.addEventListener('click', async () => {
         if(suspenseActions) suspenseActions.style.display = 'none';
+        
+        await eraseText(30);
+        await typeText('Então vamos lá...', 60);
+        
+        await new Promise(r => setTimeout(r, 1000));
+        await eraseText(30);
+        
+        await typeText('Ready?', 70);
+        await new Promise(r => setTimeout(r, 600));
+        await eraseText(20);
+        
+        // Hide title completely and show pulsing loader
+        title.style.display = 'none';
         if(suspenseLoader) suspenseLoader.style.display = 'block';
         
-        // Trigger reflow to ensure display block is registered before adding class
         void suspenseLoader.offsetWidth;
-        
-        suspenseOverlay.classList.add('loading-active');
+        suspenseOverlay.classList.add('loading-active'); // 7s pulse
         
         setTimeout(() => {
           suspenseOverlay.classList.add('fade-out');
@@ -5202,7 +5249,7 @@ if (suspenseOverlay) {
             suspenseOverlay.style.display = 'none';
             initTutorial();
           }, 800);
-        }, 5000);
+        }, 7000);
       });
     }
   }
