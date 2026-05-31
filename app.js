@@ -1387,3 +1387,15 @@ document.addEventListener('keydown', e => {
     e.preventDefault();
   }
 });
+
+// ── Limite Global de Inputs (Prevenção de quebra de layout) ───
+document.querySelectorAll('input[type="number"]').forEach(input => {
+  input.addEventListener('input', function() {
+    const max = this.hasAttribute('max') ? parseFloat(this.getAttribute('max')) : 999999999;
+    if (Number(this.value) > max) {
+      this.value = max;
+      // Dispara o evento de input novamente para atualizar os cálculos com o valor corrigido
+      this.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+  });
+});

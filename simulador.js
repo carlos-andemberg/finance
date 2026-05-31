@@ -9,8 +9,8 @@
 // FORMATADORES
 // ═══════════════════════════════════════════════
 const fmt = {
-  brl:  (n) => typeof n === 'number' ? n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '0,00',
-  pct:  (n) => (n >= 0 ? '+' : '') + n.toFixed(2).replace('.', ',') + '%',
+  brl: (n) => typeof n === 'number' ? n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '0,00',
+  pct: (n) => (n >= 0 ? '+' : '') + n.toFixed(2).replace('.', ',') + '%',
   sign: (n) => n >= 0,
 };
 
@@ -20,13 +20,13 @@ const fmt = {
 // PETR4 ajustado por split 2012 (÷4 aplicado retrospectivamente).
 // VALE3 dados reais de fechamento mensal ajustado.
 // BOVA11 criado em 2008, referência: IBOV/1000.
-// TAEE11 criado 2012 — antes disso usamos KNRI11 como proxy.
+// TAEE11 dados de 2010 a 2025.
 // CDI/Selic: dados reais BCB.
 // ═══════════════════════════════════════════════
 
 const MONTHS = [
-  'Jan','Fev','Mar','Abr','Mai','Jun',
-  'Jul','Ago','Set','Out','Nov','Dez'
+  'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
+  'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
 ];
 
 // Salário mínimo: 2010=R$510, 2011=R$545, 2012=R$622
@@ -42,26 +42,26 @@ const SALARY_BY_YEAR = { 2010: 510, 2011: 545, 2012: 622 };
 // Catálogo de ativos por tab
 const CATALOG = {
   acoes: [
-    { id: 'PETR4', name: 'Petrobras PN',      type: 'acao', prices: [], divs: [], desc: 'Estatal de petróleo. Alta volatilidade, fortes dividendos.' },
-    { id: 'VALE3', name: 'Vale ON',            type: 'acao', prices: [], divs: [], desc: 'Maior mineradora do Brasil. Correlacionada ao minério de ferro.' },
-    { id: 'BOVA11', name: 'iShares Ibovespa', type: 'etf',  prices: [], divs: [], desc: 'ETF que replica o Ibovespa. Diversificação automática.' },
-    { id: 'TAEE11', name: 'Taesa S.A.',   type: 'acao',  prices: [], divs: [], desc: 'Ação focada em dividendos (Transmissora de Energia). Funciona como um relógio.' },
+    { id: 'PETR4', name: 'Petrobras PN', type: 'acao', prices: [], divs: [], desc: 'Estatal de petróleo. Alta volatilidade, fortes dividendos.' },
+    { id: 'VALE3', name: 'Vale ON', type: 'acao', prices: [], divs: [], desc: 'Maior mineradora do Brasil. Correlacionada ao minério de ferro.' },
+    { id: 'BOVA11', name: 'iShares Ibovespa', type: 'etf', prices: [], divs: [], desc: 'ETF que replica o Ibovespa. Diversificação automática.' },
+    { id: 'TAEE11', name: 'Taesa S.A.', type: 'acao', prices: [], divs: [], desc: 'Ação focada em dividendos (Transmissora de Energia). Funciona como um relógio.' },
   ],
   tesouro: [
-    { id: 'TDSELIC', name: 'Tesouro Selic',   type: 'tesouro', prices: [], divs: [], desc: 'Rende a taxa básica de juros (Selic). Liquidez diária.' },
-    { id: 'TDIPCA',  name: 'Tesouro IPCA+6%', type: 'tesouro', prices: [], divs: [], desc: 'Protege da inflação (IPCA) + 6% a.a. de juro real.' },
-    { id: 'TDPRE',   name: 'Tesouro Prefixado 11%', type: 'tesouro', prices: [], divs: [], desc: 'Taxa travada em 11% a.a. Risco de marcação a mercado.' },
+    { id: 'TDSELIC', name: 'Tesouro Selic', type: 'tesouro', prices: [], divs: [], desc: 'Rende a taxa básica de juros (Selic). Liquidez diária.' },
+    { id: 'TDIPCA', name: 'Tesouro IPCA+6%', type: 'tesouro', prices: [], divs: [], desc: 'Protege da inflação (IPCA) + 6% a.a. de juro real.' },
+    { id: 'TDPRE', name: 'Tesouro Prefixado 11%', type: 'tesouro', prices: [], divs: [], desc: 'Taxa travada em 11% a.a. Risco de marcação a mercado.' },
   ],
   fixa: [
-    { id: 'CDB110', name: 'CDB 110% CDI',   type: 'renda_fixa', prices: [], divs: [], desc: 'CDB do banco com 110% do CDI. Garantido pelo FGC.' },
-    { id: 'LCI92',  name: 'LCI 92% CDI',    type: 'renda_fixa', prices: [], divs: [], desc: 'Letra de Crédito Imobiliário. Isenta de IR para pessoa física.' },
+    { id: 'CDB110', name: 'CDB 110% CDI', type: 'renda_fixa', prices: [], divs: [], desc: 'CDB do banco com 110% do CDI. Garantido pelo FGC.' },
+    { id: 'LCI92', name: 'LCI 92% CDI', type: 'renda_fixa', prices: [], divs: [], desc: 'Letra de Crédito Imobiliário. Isenta de IR para pessoa física.' },
   ],
 };
 
 // Eventos históricos por mês (mês-índice 0..35)
 const HISTORICAL_EVENTS = {
-  0:  { icon: '🚀', title: 'Jan 2010 — Brasil crescendo', desc: 'Brasil cresce 7,5% em 2010. Bolsa em alta. Petrobras lidera ganhos.' },
-  5:  { icon: '🛢️', title: 'Jun 2010 — Boom do Petróleo', desc: 'PETR4 sobe com descobertas do Pré-Sal. Otimismo nas companhias de energia.' },
+  0: { icon: '🚀', title: 'Jan 2010 — Brasil crescendo', desc: 'Brasil cresce 7,5% em 2010. Bolsa em alta. Petrobras lidera ganhos.' },
+  5: { icon: '🛢️', title: 'Jun 2010 — Boom do Petróleo', desc: 'PETR4 sobe com descobertas do Pré-Sal. Otimismo nas companhias de energia.' },
   11: { icon: '🏆', title: 'Dez 2010 — Ano de ouro', desc: 'Ibovespa encerra 2010 com alta de 1%. Petrobras e Vale puxam o índice.' },
   12: { icon: '📈', title: 'Jan 2011 — Início do ciclo de alta de juros', desc: 'Banco Central sobe a Selic para conter a inflação crescente. CDB rende mais.' },
   18: { icon: '📉', title: 'Jul 2011 — Crise europeia', desc: 'Grécia entra em colapso. Investidores fogem de emergentes. Ibovespa cai 18% no ano.' },
@@ -3516,242 +3516,242 @@ const REAL_MARKET_DATA = {
       "05": 0.0102
     }
   }
-,
+  ,
   "IPCA": {
     "2010": {
-        "01": 0.0075,
-        "02": 0.0078000000000000005,
-        "03": 0.0052,
-        "04": 0.005699999999999999,
-        "05": 0.0043,
-        "06": 0.0,
-        "07": 0.0001,
-        "08": 0.0004,
-        "09": 0.0045000000000000005,
-        "10": 0.0075,
-        "11": 0.0083,
-        "12": 0.0063
+      "01": 0.0075,
+      "02": 0.0078000000000000005,
+      "03": 0.0052,
+      "04": 0.005699999999999999,
+      "05": 0.0043,
+      "06": 0.0,
+      "07": 0.0001,
+      "08": 0.0004,
+      "09": 0.0045000000000000005,
+      "10": 0.0075,
+      "11": 0.0083,
+      "12": 0.0063
     },
     "2011": {
-        "01": 0.0083,
-        "02": 0.008,
-        "03": 0.0079,
-        "04": 0.0077,
-        "05": 0.004699999999999999,
-        "06": 0.0015,
-        "07": 0.0016,
-        "08": 0.0037,
-        "09": 0.0053,
-        "10": 0.0043,
-        "11": 0.0052,
-        "12": 0.005
+      "01": 0.0083,
+      "02": 0.008,
+      "03": 0.0079,
+      "04": 0.0077,
+      "05": 0.004699999999999999,
+      "06": 0.0015,
+      "07": 0.0016,
+      "08": 0.0037,
+      "09": 0.0053,
+      "10": 0.0043,
+      "11": 0.0052,
+      "12": 0.005
     },
     "2012": {
-        "01": 0.005600000000000001,
-        "02": 0.0045000000000000005,
-        "03": 0.0021,
-        "04": 0.0064,
-        "05": 0.0036,
-        "06": 0.0008,
-        "07": 0.0043,
-        "08": 0.0040999999999999995,
-        "09": 0.005699999999999999,
-        "10": 0.0059,
-        "11": 0.006,
-        "12": 0.0079
+      "01": 0.005600000000000001,
+      "02": 0.0045000000000000005,
+      "03": 0.0021,
+      "04": 0.0064,
+      "05": 0.0036,
+      "06": 0.0008,
+      "07": 0.0043,
+      "08": 0.0040999999999999995,
+      "09": 0.005699999999999999,
+      "10": 0.0059,
+      "11": 0.006,
+      "12": 0.0079
     },
     "2013": {
-        "01": 0.0086,
-        "02": 0.006,
-        "03": 0.004699999999999999,
-        "04": 0.0055000000000000005,
-        "05": 0.0037,
-        "06": 0.0026,
-        "07": 0.0003,
-        "08": 0.0024,
-        "09": 0.0034999999999999996,
-        "10": 0.005699999999999999,
-        "11": 0.0054,
-        "12": 0.0092
+      "01": 0.0086,
+      "02": 0.006,
+      "03": 0.004699999999999999,
+      "04": 0.0055000000000000005,
+      "05": 0.0037,
+      "06": 0.0026,
+      "07": 0.0003,
+      "08": 0.0024,
+      "09": 0.0034999999999999996,
+      "10": 0.005699999999999999,
+      "11": 0.0054,
+      "12": 0.0092
     },
     "2014": {
-        "01": 0.0055000000000000005,
-        "02": 0.0069,
-        "03": 0.0092,
-        "04": 0.0067,
-        "05": 0.0046,
-        "06": 0.004,
-        "07": 0.0001,
-        "08": 0.0025,
-        "09": 0.005699999999999999,
-        "10": 0.0042,
-        "11": 0.0051,
-        "12": 0.0078000000000000005
+      "01": 0.0055000000000000005,
+      "02": 0.0069,
+      "03": 0.0092,
+      "04": 0.0067,
+      "05": 0.0046,
+      "06": 0.004,
+      "07": 0.0001,
+      "08": 0.0025,
+      "09": 0.005699999999999999,
+      "10": 0.0042,
+      "11": 0.0051,
+      "12": 0.0078000000000000005
     },
     "2015": {
-        "01": 0.0124,
-        "02": 0.012199999999999999,
-        "03": 0.0132,
-        "04": 0.0070999999999999995,
-        "05": 0.0074,
-        "06": 0.0079,
-        "07": 0.0062,
-        "08": 0.0022,
-        "09": 0.0054,
-        "10": 0.008199999999999999,
-        "11": 0.0101,
-        "12": 0.0096
+      "01": 0.0124,
+      "02": 0.012199999999999999,
+      "03": 0.0132,
+      "04": 0.0070999999999999995,
+      "05": 0.0074,
+      "06": 0.0079,
+      "07": 0.0062,
+      "08": 0.0022,
+      "09": 0.0054,
+      "10": 0.008199999999999999,
+      "11": 0.0101,
+      "12": 0.0096
     },
     "2016": {
-        "01": 0.0127,
-        "02": 0.009000000000000001,
-        "03": 0.0043,
-        "04": 0.0060999999999999995,
-        "05": 0.0078000000000000005,
-        "06": 0.0034999999999999996,
-        "07": 0.0052,
-        "08": 0.0044,
-        "09": 0.0008,
-        "10": 0.0026,
-        "11": 0.0018,
-        "12": 0.003
+      "01": 0.0127,
+      "02": 0.009000000000000001,
+      "03": 0.0043,
+      "04": 0.0060999999999999995,
+      "05": 0.0078000000000000005,
+      "06": 0.0034999999999999996,
+      "07": 0.0052,
+      "08": 0.0044,
+      "09": 0.0008,
+      "10": 0.0026,
+      "11": 0.0018,
+      "12": 0.003
     },
     "2017": {
-        "01": 0.0038,
-        "02": 0.0033,
-        "03": 0.0025,
-        "04": 0.0014000000000000002,
-        "05": 0.0031,
-        "06": -0.0023,
-        "07": 0.0024,
-        "08": 0.0019,
-        "09": 0.0016,
-        "10": 0.0042,
-        "11": 0.0028000000000000004,
-        "12": 0.0044
+      "01": 0.0038,
+      "02": 0.0033,
+      "03": 0.0025,
+      "04": 0.0014000000000000002,
+      "05": 0.0031,
+      "06": -0.0023,
+      "07": 0.0024,
+      "08": 0.0019,
+      "09": 0.0016,
+      "10": 0.0042,
+      "11": 0.0028000000000000004,
+      "12": 0.0044
     },
     "2018": {
-        "01": 0.0029,
-        "02": 0.0032,
-        "03": 0.0009,
-        "04": 0.0022,
-        "05": 0.004,
-        "06": 0.0126,
-        "07": 0.0033,
-        "08": -0.0009,
-        "09": 0.0048,
-        "10": 0.0045000000000000005,
-        "11": -0.0021,
-        "12": 0.0015
+      "01": 0.0029,
+      "02": 0.0032,
+      "03": 0.0009,
+      "04": 0.0022,
+      "05": 0.004,
+      "06": 0.0126,
+      "07": 0.0033,
+      "08": -0.0009,
+      "09": 0.0048,
+      "10": 0.0045000000000000005,
+      "11": -0.0021,
+      "12": 0.0015
     },
     "2019": {
-        "01": 0.0032,
-        "02": 0.0043,
-        "03": 0.0075,
-        "04": 0.005699999999999999,
-        "05": 0.0013,
-        "06": 0.0001,
-        "07": 0.0019,
-        "08": 0.0011,
-        "09": -0.0004,
-        "10": 0.001,
-        "11": 0.0051,
-        "12": 0.0115
+      "01": 0.0032,
+      "02": 0.0043,
+      "03": 0.0075,
+      "04": 0.005699999999999999,
+      "05": 0.0013,
+      "06": 0.0001,
+      "07": 0.0019,
+      "08": 0.0011,
+      "09": -0.0004,
+      "10": 0.001,
+      "11": 0.0051,
+      "12": 0.0115
     },
     "2020": {
-        "01": 0.0021,
-        "02": 0.0025,
-        "03": 0.0007000000000000001,
-        "04": -0.0031,
-        "05": -0.0038,
-        "06": 0.0026,
-        "07": 0.0036,
-        "08": 0.0024,
-        "09": 0.0064,
-        "10": 0.0086,
-        "11": 0.0089,
-        "12": 0.013500000000000002
+      "01": 0.0021,
+      "02": 0.0025,
+      "03": 0.0007000000000000001,
+      "04": -0.0031,
+      "05": -0.0038,
+      "06": 0.0026,
+      "07": 0.0036,
+      "08": 0.0024,
+      "09": 0.0064,
+      "10": 0.0086,
+      "11": 0.0089,
+      "12": 0.013500000000000002
     },
     "2021": {
-        "01": 0.0025,
-        "02": 0.0086,
-        "03": 0.009300000000000001,
-        "04": 0.0031,
-        "05": 0.0083,
-        "06": 0.0053,
-        "07": 0.0096,
-        "08": 0.0087,
-        "09": 0.0116,
-        "10": 0.0125,
-        "11": 0.0095,
-        "12": 0.0073
+      "01": 0.0025,
+      "02": 0.0086,
+      "03": 0.009300000000000001,
+      "04": 0.0031,
+      "05": 0.0083,
+      "06": 0.0053,
+      "07": 0.0096,
+      "08": 0.0087,
+      "09": 0.0116,
+      "10": 0.0125,
+      "11": 0.0095,
+      "12": 0.0073
     },
     "2022": {
-        "01": 0.0054,
-        "02": 0.0101,
-        "03": 0.016200000000000003,
-        "04": 0.0106,
-        "05": 0.004699999999999999,
-        "06": 0.0067,
-        "07": -0.0068000000000000005,
-        "08": -0.0036,
-        "09": -0.0029,
-        "10": 0.0059,
-        "11": 0.0040999999999999995,
-        "12": 0.0062
+      "01": 0.0054,
+      "02": 0.0101,
+      "03": 0.016200000000000003,
+      "04": 0.0106,
+      "05": 0.004699999999999999,
+      "06": 0.0067,
+      "07": -0.0068000000000000005,
+      "08": -0.0036,
+      "09": -0.0029,
+      "10": 0.0059,
+      "11": 0.0040999999999999995,
+      "12": 0.0062
     },
     "2023": {
-        "01": 0.0053,
-        "02": 0.0084,
-        "03": 0.0070999999999999995,
-        "04": 0.0060999999999999995,
-        "05": 0.0023,
-        "06": -0.0008,
-        "07": 0.0012,
-        "08": 0.0023,
-        "09": 0.0026,
-        "10": 0.0024,
-        "11": 0.0028000000000000004,
-        "12": 0.005600000000000001
+      "01": 0.0053,
+      "02": 0.0084,
+      "03": 0.0070999999999999995,
+      "04": 0.0060999999999999995,
+      "05": 0.0023,
+      "06": -0.0008,
+      "07": 0.0012,
+      "08": 0.0023,
+      "09": 0.0026,
+      "10": 0.0024,
+      "11": 0.0028000000000000004,
+      "12": 0.005600000000000001
     },
     "2024": {
-        "01": 0.0042,
-        "02": 0.0083,
-        "03": 0.0016,
-        "04": 0.0038,
-        "05": 0.0046,
-        "06": 0.0021,
-        "07": 0.0038,
-        "08": -0.0002,
-        "09": 0.0044,
-        "10": 0.005600000000000001,
-        "11": 0.0039000000000000003,
-        "12": 0.0052
+      "01": 0.0042,
+      "02": 0.0083,
+      "03": 0.0016,
+      "04": 0.0038,
+      "05": 0.0046,
+      "06": 0.0021,
+      "07": 0.0038,
+      "08": -0.0002,
+      "09": 0.0044,
+      "10": 0.005600000000000001,
+      "11": 0.0039000000000000003,
+      "12": 0.0052
     },
     "2025": {
-        "01": 0.0016,
-        "02": 0.0131,
-        "03": 0.005600000000000001,
-        "04": 0.0043,
-        "05": 0.0026,
-        "06": 0.0024,
-        "07": 0.0026,
-        "08": -0.0011,
-        "09": 0.0048,
-        "10": 0.0009,
-        "11": 0.0018,
-        "12": 0.0033
+      "01": 0.0016,
+      "02": 0.0131,
+      "03": 0.005600000000000001,
+      "04": 0.0043,
+      "05": 0.0026,
+      "06": 0.0024,
+      "07": 0.0026,
+      "08": -0.0011,
+      "09": 0.0048,
+      "10": 0.0009,
+      "11": 0.0018,
+      "12": 0.0033
     }
-}
+  }
 };
 const ANNUAL_RETURNS_POST_2012 = {
   IBOV: { // Ações e ETFs (aprox. variação anual do Ibovespa)
     2013: -0.15, 2014: -0.03, 2015: -0.13, 2016: 0.39, 2017: 0.27, 2018: 0.15,
-    2019: 0.32,  2020: -0.02, 2021: 0.21,  2022: -0.20, 2023: 0.22, 2024: 0.15, 2025: 0.08,
+    2019: 0.32, 2020: -0.02, 2021: 0.21, 2022: -0.20, 2023: 0.22, 2024: 0.15, 2025: 0.08,
   },
   IFIX: { // FIIs (aprox. variação do IFIX)
     2013: -0.09, 2014: 0.10, 2015: -0.04, 2016: 0.32, 2017: 0.19, 2018: 0.05,
-    2019: 0.35,  2020: -0.10, 2021: -0.02, 2022: 0.02, 2023: 0.15, 2024: 0.01, 2025: 0.00,
+    2019: 0.35, 2020: -0.10, 2021: -0.02, 2022: 0.02, 2023: 0.15, 2024: 0.01, 2025: 0.00,
   },
   CDI: { // Renda Fixa / Tesouro Selic (CDI histórico)
     2013: 0.08, 2014: 0.108, 2015: 0.132, 2016: 0.14, 2017: 0.099, 2018: 0.064,
@@ -3781,8 +3781,8 @@ function loadState() {
       const parsed = JSON.parse(s);
       Object.assign(state, parsed);
     }
-  } catch(e) {}
-  
+  } catch (e) { }
+
   // Limpa o estado da interface que não deve persistir entre reloads
   state.selectedAsset = null;
   const buyPanel = document.getElementById('buy-panel');
@@ -3885,7 +3885,7 @@ function miniChart(prices, currentIdx, width = 80, height = 30) {
     const y = height - ((p - min) / range) * height;
     return `${x.toFixed(1)},${y.toFixed(1)}`;
   }).join(' ');
-  const color = slice[slice.length-1] >= slice[0] ? '#00d084' : '#ff4757';
+  const color = slice[slice.length - 1] >= slice[0] ? '#00d084' : '#ff4757';
   return `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
     <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>`;
@@ -3899,17 +3899,17 @@ function showToast(msg, type = 'info') {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.style.borderLeft = type === 'error' ? '4px solid var(--red)' : '4px solid var(--primary)';
-  
+
   // Reseta a animação se já estiver rodando
   t.style.animation = 'none';
   t.offsetHeight; // trigger reflow
-  
+
   if (type === 'error') {
     t.style.animation = 'shake 0.4s cubic-bezier(.36,.07,.19,.97) both';
   } else {
     t.style.animation = 'bounceIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both';
   }
-  
+
   t.classList.add('show');
   clearTimeout(t.timer);
   t.timer = setTimeout(() => {
@@ -3954,19 +3954,19 @@ function closeBuyPanel() {
 function updateBuyTotal() {
   const id = state.selectedAsset;
   if (!id) return;
-  const qty   = parseInt(document.getElementById('buy-qty').value) || 0;
+  const qty = parseInt(document.getElementById('buy-qty').value) || 0;
   const price = currentPrice(id);
   const total = qty * price;
   document.getElementById('buy-total').textContent = `R$ ${fmt.brl(total)}`;
-  const canBuy  = total <= state.balance && qty > 0;
+  const canBuy = total <= state.balance && qty > 0;
   const canSell = (state.portfolio[id]?.qty ?? 0) >= qty && qty > 0;
   document.getElementById('buy-warn').style.display = (qty > 0 && !canBuy) ? 'block' : 'none';
-  document.getElementById('btn-confirm-buy').disabled  = !canBuy;
+  document.getElementById('btn-confirm-buy').disabled = !canBuy;
   document.getElementById('btn-confirm-sell').disabled = !canSell;
 }
 
 function confirmBuy() {
-  const id  = state.selectedAsset;
+  const id = state.selectedAsset;
   const qty = parseInt(document.getElementById('buy-qty').value) || 0;
   if (!id || qty <= 0) return;
   const price = currentPrice(id);
@@ -3985,7 +3985,7 @@ function confirmBuy() {
 }
 
 function confirmSell() {
-  const id  = state.selectedAsset;
+  const id = state.selectedAsset;
   const qty = parseInt(document.getElementById('buy-qty').value) || 0;
   if (!id || qty <= 0) return;
   const pos = state.portfolio[id];
@@ -4052,7 +4052,7 @@ function render() {
   });
 
   // Header
-  document.getElementById('hdr-balance').textContent   = `R$ ${fmt.brl(state.balance)}`;
+  document.getElementById('hdr-balance').textContent = `R$ ${fmt.brl(state.balance)}`;
   document.getElementById('hdr-patrimony').textContent = `R$ ${fmt.brl(calcPatrimony())}`;
   document.getElementById('current-date-display').textContent = dateLabel(state.month);
 
@@ -4072,8 +4072,8 @@ function render() {
   // Context bar
   const evt = HISTORICAL_EVENTS[state.month];
   if (evt) {
-    document.getElementById('ctx-event-icon').textContent  = evt.icon;
-    document.getElementById('ctx-event-text').textContent  = evt.desc;
+    document.getElementById('ctx-event-icon').textContent = evt.icon;
+    document.getElementById('ctx-event-text').textContent = evt.desc;
   }
 
   // Asset table
@@ -4087,16 +4087,16 @@ function render() {
 }
 
 function renderAssets() {
-  const tab    = state.activeTab;
+  const tab = state.activeTab;
   const assets = CATALOG[tab] ?? [];
-  const tbody  = document.getElementById('assets-tbody');
+  const tbody = document.getElementById('assets-tbody');
   tbody.innerHTML = '';
 
   assets.forEach(a => {
-    const price  = currentPrice(a.id);
+    const price = currentPrice(a.id);
     const change = monthChange(a.id);
-    const up     = change >= 0;
-    const tr     = document.createElement('tr');
+    const up = change >= 0;
+    const tr = document.createElement('tr');
     tr.className = `asset-row${state.selectedAsset === a.id ? ' selected' : ''}`;
     tr.addEventListener('click', () => openBuyPanel(a.id));
     tr.innerHTML = `
@@ -4117,9 +4117,9 @@ function renderAssets() {
 }
 
 function renderPortfolio() {
-  const list    = document.getElementById('portfolio-list');
+  const list = document.getElementById('portfolio-list');
   const summary = document.getElementById('portfolio-summary');
-  const keys    = Object.keys(state.portfolio);
+  const keys = Object.keys(state.portfolio);
 
   document.getElementById('portfolio-count').textContent = `${keys.length} investimento${keys.length !== 1 ? 's' : ''}`;
 
@@ -4137,11 +4137,11 @@ function renderPortfolio() {
 
   list.innerHTML = '';
   keys.forEach(id => {
-    const pos   = state.portfolio[id];
-    const val   = pos.qty * currentPrice(id);
-    const ret   = ((val / pos.totalInvested) - 1) * 100;
-    const up    = ret >= 0;
-    const div   = document.createElement('div');
+    const pos = state.portfolio[id];
+    const val = pos.qty * currentPrice(id);
+    const ret = ((val / pos.totalInvested) - 1) * 100;
+    const up = ret >= 0;
+    const div = document.createElement('div');
     div.className = 'portfolio-item';
     div.addEventListener('click', () => openBuyPanel(id));
     div.innerHTML = `
@@ -4158,11 +4158,11 @@ function renderPortfolio() {
   });
 
   const invested = calcInvested();
-  const current  = calcCurrentPortfolio();
-  const pnl      = current - invested + state.totalDivs;
+  const current = calcCurrentPortfolio();
+  const pnl = current - invested + state.totalDivs;
   document.getElementById('ps-invested').textContent = `R$ ${fmt.brl(invested)}`;
-  document.getElementById('ps-current').textContent  = `R$ ${fmt.brl(current)}`;
-  document.getElementById('ps-divs').textContent     = `R$ ${fmt.brl(state.totalDivs)}`;
+  document.getElementById('ps-current').textContent = `R$ ${fmt.brl(current)}`;
+  document.getElementById('ps-divs').textContent = `R$ ${fmt.brl(state.totalDivs)}`;
   const pnlEl = document.getElementById('ps-pnl');
   pnlEl.textContent = `R$ ${fmt.brl(pnl)}`;
   pnlEl.style.color = pnl >= 0 ? 'var(--primary)' : 'var(--red)';
@@ -4175,8 +4175,8 @@ function renderPortfolio() {
 function showMonthModal(divTotal, divReport, salary) {
   const modal = document.getElementById('modal');
   const { year, month } = yearMonth(state.month);
-  document.getElementById('modal-icon').textContent     = '📅';
-  document.getElementById('modal-title').textContent    = `Mês encerrado — ${MONTHS[month === 0 ? 11 : month - 1]} ${month === 0 ? year - 1 : year}`;
+  document.getElementById('modal-icon').textContent = '📅';
+  document.getElementById('modal-title').textContent = `Mês encerrado — ${MONTHS[month === 0 ? 11 : month - 1]} ${month === 0 ? year - 1 : year}`;
   document.getElementById('modal-subtitle').textContent = `Você recebeu seu salário de R$ ${fmt.brl(salary)} e avançou para ${dateLabel(state.month)}.`;
 
   // Evento histórico
@@ -4184,7 +4184,7 @@ function showMonthModal(divTotal, divReport, salary) {
   const evtBox = document.getElementById('modal-event');
   if (evt) {
     document.getElementById('modal-event-title').textContent = `${evt.icon} ${evt.title}`;
-    document.getElementById('modal-event-desc').textContent  = evt.desc;
+    document.getElementById('modal-event-desc').textContent = evt.desc;
     evtBox.style.display = 'block';
   } else {
     evtBox.style.display = 'none';
@@ -4197,7 +4197,7 @@ function showMonthModal(divTotal, divReport, salary) {
     divsList.innerHTML = divReport.map(d =>
       `<div class="modal-div-row"><span>${d.id}</span><span style="color:var(--yellow)">+R$ ${fmt.brl(d.received)}</span></div>`
     ).join('') +
-    `<div class="modal-div-row modal-div-total"><span>Total de proventos</span><span>R$ ${fmt.brl(divTotal)}</span></div>`;
+      `<div class="modal-div-row modal-div-total"><span>Total de proventos</span><span>R$ ${fmt.brl(divTotal)}</span></div>`;
     divsWrap.style.display = 'block';
   } else {
     divsWrap.style.display = 'none';
@@ -4212,11 +4212,11 @@ function showFinalResult() {
 
   const patrimony = calcPatrimony();
   const portfolioVal = calcCurrentPortfolio();
-  
+
   // Soma real dos salários recebidos mês a mês
   let totalSalaries = 0;
   for (let i = 0; i < TOTAL_MONTHS; i++) totalSalaries += salary(i);
-  
+
   // Rentabilidade da carteira investida
   const totalInvested = calcInvested();
   document.getElementById('kpi-invested').textContent = `R$ ${fmt.brl(totalInvested)}`;
@@ -4228,8 +4228,8 @@ function showFinalResult() {
 
   slider.addEventListener('input', () => updateTimeline(+slider.value));
 
-    document.getElementById('final-overlay').classList.add('active');
-    document.getElementById('btn-restart-final')?.focus();
+  document.getElementById('final-overlay').classList.add('active');
+  document.getElementById('btn-restart-final')?.focus();
 }
 
 function updateTimeline(targetYear) {
@@ -4244,16 +4244,16 @@ function updateTimeline(targetYear) {
     const assetObj = getAsset(id);
     let currentShares = pos.qty;
     let posValue = currentShares * currentPrice(id);
-    let leftoverCash = 0; 
-    
-    let totalAssetDivs = pos.divsReceived || 0; 
+    let leftoverCash = 0;
+
+    let totalAssetDivs = pos.divsReceived || 0;
     let assetOriginalInvested = pos.totalInvested; // Aporte original
     let assetDripInvested = 0; // O quanto de div foi efetivamente recomprado
 
     for (let y = 2013; y <= targetYear; y++) {
       for (let m = 1; m <= 12; m++) {
         const mStr = m.toString().padStart(2, '0');
-        
+
         const realData = (typeof REAL_MARKET_DATA !== 'undefined') ? REAL_MARKET_DATA[id]?.[y]?.[mStr] : null;
 
         if (realData) {
@@ -4266,44 +4266,44 @@ function updateTimeline(targetYear) {
 
           const availableCash = totalDivsReceived + leftoverCash;
           if (price > 0) {
-              const newShares = Math.floor(availableCash / price);
-              const cost = newShares * price;
+            const newShares = Math.floor(availableCash / price);
+            const cost = newShares * price;
 
-              leftoverCash = availableCash - cost;
-              currentShares += newShares;
-              assetDripInvested += cost; // Controla apenas o reinvestimento
+            leftoverCash = availableCash - cost;
+            currentShares += newShares;
+            assetDripInvested += cost; // Controla apenas o reinvestimento
 
-              posValue = currentShares * price;
+            posValue = currentShares * price;
           }
         } else {
           const cdiRate = (typeof REAL_MARKET_DATA !== 'undefined') ? REAL_MARKET_DATA['CDI']?.[y]?.[mStr] : null;
           const ipcaRate = (typeof REAL_MARKET_DATA !== 'undefined') ? REAL_MARKET_DATA['IPCA']?.[y]?.[mStr] : null;
-          let monthlyReturn = 0.005; 
-          
+          let monthlyReturn = 0.005;
+
           if (cdiRate !== null && cdiRate !== undefined) {
-             if (assetObj?.id === 'CDB110') {
-                 monthlyReturn = cdiRate * 1.10; 
-             } else if (assetObj?.id === 'LCI92') {
-                 monthlyReturn = cdiRate * 0.92;
-             } else if (assetObj?.id === 'TDSELIC') {
-                 monthlyReturn = cdiRate * 0.95; 
-             } else if (assetObj?.id === 'TDIPCA' && ipcaRate !== null && ipcaRate !== undefined) {
-                 const realJurosMonthly = Math.pow(1.06, 1/12) - 1;
-                 monthlyReturn = (1 + ipcaRate) * (1 + realJurosMonthly) - 1;
-             } else {
-                 monthlyReturn = cdiRate;
-             }
+            if (assetObj?.id === 'CDB110') {
+              monthlyReturn = cdiRate * 1.10;
+            } else if (assetObj?.id === 'LCI92') {
+              monthlyReturn = cdiRate * 0.92;
+            } else if (assetObj?.id === 'TDSELIC') {
+              monthlyReturn = cdiRate * 0.95;
+            } else if (assetObj?.id === 'TDIPCA' && ipcaRate !== null && ipcaRate !== undefined) {
+              const realJurosMonthly = Math.pow(1.06, 1 / 12) - 1;
+              monthlyReturn = (1 + ipcaRate) * (1 + realJurosMonthly) - 1;
+            } else {
+              monthlyReturn = cdiRate;
+            }
           } else {
-             const annualReturn = ANNUAL_RETURNS_POST_2012['CDI']?.[y] ?? 0.05;
-             monthlyReturn = Math.pow(1 + annualReturn, 1/12) - 1;
+            const annualReturn = ANNUAL_RETURNS_POST_2012['CDI']?.[y] ?? 0.05;
+            monthlyReturn = Math.pow(1 + annualReturn, 1 / 12) - 1;
           }
-          
+
           const previousValue = posValue;
           posValue *= (1 + monthlyReturn);
-          
+
           const generatedReturn = posValue - previousValue;
           totalAssetDivs += generatedReturn;
-          assetDripInvested += generatedReturn; 
+          assetDripInvested += generatedReturn;
         }
       }
     }
@@ -4327,16 +4327,16 @@ function updateTimeline(targetYear) {
   // Retorno da carteira em relação ao montante original (tirado do bolso)
   const returnPct = globalOriginalInvested > 0 ? (simulatedPortfolio / globalOriginalInvested - 1) * 100 : 0;
 
-  document.getElementById('final-headline').textContent     = `R$ ${fmt.brl(finalPatrimony)}`;
-  document.getElementById('final-balance').textContent      = `R$ ${fmt.brl(simulatedBalance)}`;
+  document.getElementById('final-headline').textContent = `R$ ${fmt.brl(finalPatrimony)}`;
+  document.getElementById('final-balance').textContent = `R$ ${fmt.brl(simulatedBalance)}`;
   document.getElementById('final-invested-val').textContent = `R$ ${fmt.brl(simulatedPortfolio)}`;
 
   document.getElementById('kpi-invested').textContent = `R$ ${fmt.brl(globalOriginalInvested)}`;
-  document.getElementById('kpi-divs').textContent    = `R$ ${fmt.brl(simulatedDivs)}`;
-  document.getElementById('kpi-return').textContent  = fmt.pct(returnPct);
+  document.getElementById('kpi-divs').textContent = `R$ ${fmt.brl(simulatedDivs)}`;
+  document.getElementById('kpi-return').textContent = fmt.pct(returnPct);
   document.getElementById('kpi-return').style.color = returnPct >= 0 ? 'var(--primary)' : 'var(--red)';
 
-  document.getElementById('tvd-year').textContent  = targetYear;
+  document.getElementById('tvd-year').textContent = targetYear;
   document.getElementById('tvd-value').textContent = `R$ ${fmt.brl(finalPatrimony)}`;
 
   buildFinalPortfolio(portfolioBreakdown, targetYear);
@@ -4351,25 +4351,25 @@ function buildFinalPortfolio(portfolioData, targetYear) {
   const rows = portfolioData.map(item => {
     // Retorno baseado no dinheiro que saiu do bolso
     const ret = ((item.val / item.originalInvested) - 1) * 100;
-    const up  = ret >= 0;
-    
+    const up = ret >= 0;
+
     const qtyStr = Number.isInteger(item.qty) ? item.qty : item.qty.toFixed(2);
     const obj = getAsset(item.id);
     const isRendaFixa = obj?.type === 'tesouro' || obj?.type === 'renda_fixa';
-    
+
     const principalHtml = `<span style="color:#3b82f6; font-size: 0.8rem;">Saiu do seu bolso: R$ ${fmt.brl(item.originalInvested)}</span>`;
     const divsHtml = item.dripInvested > 0 ? `<br><span style="color:#eab308; font-size: 0.8rem;">Lucro Reinvestido (Bola de Neve): R$ ${fmt.brl(item.dripInvested)}</span>` : '';
-    
+
     let extraHtml = '';
     if (isRendaFixa) {
-        const juros = item.val - item.originalInvested;
-        if (juros > 0) {
-            extraHtml = `<br><span style="color:var(--green); font-size: 0.8rem;">Juros Acumulados: R$ ${fmt.brl(juros)}</span>`;
-        }
+      const juros = item.val - item.originalInvested;
+      if (juros > 0) {
+        extraHtml = `<br><span style="color:var(--green); font-size: 0.8rem;">Juros Acumulados: R$ ${fmt.brl(juros)}</span>`;
+      }
     } else {
-        if (item.totalDivs > 0) {
-            extraHtml = `<br><span style="color:var(--yellow); font-size: 0.8rem;">Dividendos Acumulados: R$ ${fmt.brl(item.totalDivs)}</span>`;
-        }
+      if (item.totalDivs > 0) {
+        extraHtml = `<br><span style="color:var(--yellow); font-size: 0.8rem;">Dividendos Acumulados: R$ ${fmt.brl(item.totalDivs)}</span>`;
+      }
     }
 
     return `<div class="fp-item" style="padding-bottom: 8px;">
@@ -4397,19 +4397,19 @@ function buildFinalPortfolio(portfolioData, targetYear) {
 // Tabs
 document.querySelectorAll('.tab-btn').forEach(btn => {
   btn.addEventListener('click', () => {
-    document.querySelectorAll('.tab-btn').forEach(b => { 
-      b.classList.remove('active'); 
-      b.setAttribute('aria-selected','false'); 
+    document.querySelectorAll('.tab-btn').forEach(b => {
+      b.classList.remove('active');
+      b.setAttribute('aria-selected', 'false');
     });
     btn.classList.add('active');
-    btn.setAttribute('aria-selected','true');
-    
+    btn.setAttribute('aria-selected', 'true');
+
     state.activeTab = btn.dataset.tab;
     saveState(); // Salva a aba escolhida no localStorage
-    
+
     closeBuyPanel();
     renderAssets();
-    
+
     // Força o scroll para o topo no container principal para forçar o recálculo de layout do Safari
     const layoutContainer = document.querySelector('.app-layout');
     if (layoutContainer) layoutContainer.scrollTop = 0;
@@ -4423,17 +4423,17 @@ document.getElementById('buy-qty').addEventListener('input', (e) => {
   updateBuyTotal();
 });
 
-window.addQty = function(n) {
+window.addQty = function (n) {
   const input = document.getElementById('buy-qty');
   let currentVal = parseInt(input.value) || 0;
-  
+
   if (currentVal === 1 && input.dataset.pristine === 'true') {
     currentVal = 0;
   }
   input.dataset.pristine = 'false';
 
   let val = currentVal + n;
-  
+
   const id = state.selectedAsset;
   if (id) {
     const price = currentPrice(id);
@@ -4442,7 +4442,7 @@ window.addQty = function(n) {
     const maxAllowed = Math.max(maxBuy, maxSell, 1);
     if (val > maxAllowed) val = maxAllowed;
   }
-  
+
   if (val < 1) val = 1;
   input.value = val;
   if (window.updateBuyTotal) window.updateBuyTotal();
@@ -4453,7 +4453,7 @@ document.getElementById('btn-confirm-buy').addEventListener('click', () => {
   const asset = document.getElementById('buy-panel-name').textContent;
   const price = currentPrice(state.selectedAsset);
   const total = document.getElementById('buy-total').textContent;
-  
+
   const html = `
     <div style="font-size:1.05rem; font-weight: 700; margin-bottom: 5px;">Confirma a ordem de <span style="color:var(--primary)">COMPRA</span>?</div>
     <div class="confirm-details-box">
@@ -4498,26 +4498,26 @@ document.getElementById('btn-advance').addEventListener('click', () => {
 function showConfirm(htmlMessage, onConfirm) {
   lastFocusedElement = document.activeElement;
   const overlay = document.getElementById('confirm-overlay');
-  const msgEl   = document.getElementById('confirm-message');
+  const msgEl = document.getElementById('confirm-message');
   msgEl.innerHTML = htmlMessage;
   overlay.classList.add('active');
 
-  const btnOk  = document.getElementById('confirm-ok');
+  const btnOk = document.getElementById('confirm-ok');
   const btnCan = document.getElementById('confirm-cancel');
 
-  function cleanup() { 
-    overlay.classList.remove('active'); 
+  function cleanup() {
+    overlay.classList.remove('active');
     if (lastFocusedElement) {
       lastFocusedElement.focus();
       lastFocusedElement = null;
     }
   }
-  function okHandler()  { cleanup(); onConfirm(); }
+  function okHandler() { cleanup(); onConfirm(); }
   function canHandler() { cleanup(); }
 
-  btnOk.onclick  = okHandler;
+  btnOk.onclick = okHandler;
   btnCan.onclick = canHandler;
-  
+
   btnCan.focus();
 }
 
@@ -4552,13 +4552,13 @@ function showDetailedReport() {
   // KPIs
   document.getElementById('rep-invested').textContent = `R$ ${fmt.brl(totalInvested)}`;
   document.getElementById('rep-total').textContent = `R$ ${fmt.brl(totalBruto)}`;
-  
+
   const profitEl = document.getElementById('rep-profit');
   profitEl.textContent = `R$ ${fmt.brl(lucroCarteira)}`;
   profitEl.className = `kpi-value ${lucroCarteira >= 0 ? 'green' : 'red'}`;
 
   document.getElementById('rep-divs').textContent = `R$ ${fmt.brl(state.totalDivs)}`;
-  
+
   const roiEl = document.getElementById('rep-roi');
   roiEl.textContent = fmt.pct(roi);
   roiEl.className = `kpi-value ${roi >= 0 ? 'green' : 'red'}`;
@@ -4572,7 +4572,7 @@ function showDetailedReport() {
     const obj = getAsset(id);
     const currentP = currentPrice(id);
     const positionValue = pos.qty * currentP;
-    
+
     if (obj?.type === 'acao' || obj?.type === 'etf' || obj?.type === 'fii') valAcoes += positionValue;
     else valRendaFixa += positionValue;
 
@@ -4580,15 +4580,15 @@ function showDetailedReport() {
     const divsAsset = pos.divsReceived || 0;
     const profitAsset = positionValue - totalInvestedInAsset + divsAsset;
     const roiAsset = totalInvestedInAsset > 0 ? (profitAsset / totalInvestedInAsset) * 100 : 0;
-    
+
     const colorClass = roiAsset >= 0 ? 'primary' : 'red';
-    
+
     const isRendaFixa = obj?.type === 'tesouro' || obj?.type === 'renda_fixa';
     let divsHtml = '';
     if (isRendaFixa) {
-        divsHtml = `<td class="mobile-hide" style="text-align:right; color:var(--muted)">-</td>`;
+      divsHtml = `<td class="mobile-hide" style="text-align:right; color:var(--muted)">-</td>`;
     } else {
-        divsHtml = `<td data-label="Dividendos" style="text-align:right; color:var(--yellow)">R$ ${fmt.brl(divsAsset)}</td>`;
+      divsHtml = `<td data-label="Dividendos" style="text-align:right; color:var(--yellow)">R$ ${fmt.brl(divsAsset)}</td>`;
     }
 
     const tr = document.createElement('tr');
@@ -4606,8 +4606,8 @@ function showDetailedReport() {
   }
 
   const pctAcoes = (valAcoes / totalBruto) * 100;
-  const pctFixa  = (valRendaFixa / totalBruto) * 100;
-  const pctCash  = (state.balance / totalBruto) * 100;
+  const pctFixa = (valRendaFixa / totalBruto) * 100;
+  const pctCash = (state.balance / totalBruto) * 100;
 
   document.getElementById('rep-var-val').textContent = fmt.pct(pctAcoes);
   document.getElementById('rep-fix-val').textContent = fmt.pct(pctFixa);
@@ -4637,49 +4637,49 @@ document.getElementById('btn-modal-ok').addEventListener('click', () => {
 
 function initializeSimulationData() {
   const years = ["2010", "2011", "2012"];
-  
+
   for (const assetList of [CATALOG.acoes, CATALOG.tesouro, CATALOG.fixa]) {
     for (const asset of assetList) {
       asset.prices = [];
       asset.divs = [];
       let currentPrice = 100;
-      
+
       for (const y of years) {
         for (let m = 1; m <= 12; m++) {
           const mStr = m.toString().padStart(2, '0');
-          
+
           const realData = (typeof REAL_MARKET_DATA !== 'undefined') ? REAL_MARKET_DATA[asset.id]?.[y]?.[mStr] : null;
-          
+
           if (realData) {
             asset.prices.push(realData.price);
             asset.divs.push(realData.divs);
           } else {
-             const cdiRate = (typeof REAL_MARKET_DATA !== 'undefined') ? REAL_MARKET_DATA['CDI']?.[y]?.[mStr] : null;
-             const ipcaRate = (typeof REAL_MARKET_DATA !== 'undefined') ? REAL_MARKET_DATA['IPCA']?.[y]?.[mStr] : null;
-             
-             let monthlyReturn = 0.005;
-             if (cdiRate !== null && cdiRate !== undefined) {
-               if (asset.id === 'CDB110') {
-                   monthlyReturn = cdiRate * 1.10; 
-               } else if (asset.id === 'LCI92') {
-                   monthlyReturn = cdiRate * 0.92;
-               } else if (asset.id === 'TDSELIC') {
-                   monthlyReturn = cdiRate * 0.95; 
-               } else if (asset.id === 'TDIPCA' && ipcaRate !== null && ipcaRate !== undefined) {
-                   const realJurosMonthly = Math.pow(1.06, 1/12) - 1;
-                   monthlyReturn = (1 + ipcaRate) * (1 + realJurosMonthly) - 1;
-               } else if (asset.id === 'TDPRE') {
-                   monthlyReturn = Math.pow(1.11, 1/12) - 1;
-               } else {
-                   monthlyReturn = cdiRate;
-               }
-             } else if (asset.id === 'TDPRE') {
-                 monthlyReturn = Math.pow(1.11, 1/12) - 1;
-             }
-             
-             currentPrice *= (1 + monthlyReturn);
-             asset.prices.push(+currentPrice.toFixed(4));
-             asset.divs.push(0);
+            const cdiRate = (typeof REAL_MARKET_DATA !== 'undefined') ? REAL_MARKET_DATA['CDI']?.[y]?.[mStr] : null;
+            const ipcaRate = (typeof REAL_MARKET_DATA !== 'undefined') ? REAL_MARKET_DATA['IPCA']?.[y]?.[mStr] : null;
+
+            let monthlyReturn = 0.005;
+            if (cdiRate !== null && cdiRate !== undefined) {
+              if (asset.id === 'CDB110') {
+                monthlyReturn = cdiRate * 1.10;
+              } else if (asset.id === 'LCI92') {
+                monthlyReturn = cdiRate * 0.92;
+              } else if (asset.id === 'TDSELIC') {
+                monthlyReturn = cdiRate * 0.95;
+              } else if (asset.id === 'TDIPCA' && ipcaRate !== null && ipcaRate !== undefined) {
+                const realJurosMonthly = Math.pow(1.06, 1 / 12) - 1;
+                monthlyReturn = (1 + ipcaRate) * (1 + realJurosMonthly) - 1;
+              } else if (asset.id === 'TDPRE') {
+                monthlyReturn = Math.pow(1.11, 1 / 12) - 1;
+              } else {
+                monthlyReturn = cdiRate;
+              }
+            } else if (asset.id === 'TDPRE') {
+              monthlyReturn = Math.pow(1.11, 1 / 12) - 1;
+            }
+
+            currentPrice *= (1 + monthlyReturn);
+            asset.prices.push(+currentPrice.toFixed(4));
+            asset.divs.push(0);
           }
         }
       }
@@ -4702,7 +4702,7 @@ if (buyQtyInput) {
     setTimeout(() => window.scrollTo(0, 0), 100);
     setTimeout(() => window.scrollTo(0, 0), 300);
   });
-  
+
   buyQtyInput.addEventListener('blur', () => {
     if (window.innerWidth >= 900) return;
     // Atrasa o "layout shift" em 150ms para que o botão clicado não mude de lugar
@@ -4710,7 +4710,7 @@ if (buyQtyInput) {
     setTimeout(() => {
       document.body.classList.remove('keyboard-open');
       document.body.style.height = '';
-      
+
       // Bloqueia cliques acidentais em TUDO por 600ms após o teclado fechar
       document.body.style.pointerEvents = 'none';
       setTimeout(() => document.body.style.pointerEvents = '', 600);
@@ -4816,7 +4816,7 @@ const btnTutSkip = document.getElementById('tut-skip');
 
 function initTutorialUI() {
   tutDotsContainer.innerHTML = tutorialSteps.map((_, i) => `<div class="tut-dot" data-step="${i}"></div>`).join('');
-  
+
   btnTutPrev.addEventListener('click', () => { if (tutCurrentStep > 0) showTutorialStep(tutCurrentStep - 1); });
   btnTutNext.addEventListener('click', () => {
     if (tutCurrentStep < tutorialSteps.length - 1) {
@@ -4826,7 +4826,7 @@ function initTutorialUI() {
     }
   });
   btnTutSkip.addEventListener('click', finishTutorial);
-  
+
   const btnRestart = document.getElementById('btn-restart-tutorial');
   if (btnRestart) {
     btnRestart.addEventListener('click', () => {
@@ -4845,9 +4845,9 @@ function initTutorial() {
 function showTutorialStep(index) {
   tutCurrentStep = index;
   const step = tutorialSteps[index];
-  
+
   let targetSelector = step.target;
-  
+
   // Prevent scroll during tutorial
   document.body.classList.add('tutorial-active');
   const main = document.querySelector('.broker-main');
@@ -4856,14 +4856,14 @@ function showTutorialStep(index) {
   // Cleanup previous target z-index and pointer-events
   if (window.tutPrevTarget) {
     window.tutPrevTarget.style.zIndex = '';
-    
+
     if (window.tutPrevTarget.dataset.tutOldPos) {
       window.tutPrevTarget.style.position = window.tutPrevTarget.dataset.tutOldPos;
       delete window.tutPrevTarget.dataset.tutOldPos;
     } else {
       window.tutPrevTarget.style.position = '';
     }
-    
+
     if (window.tutPrevTarget.dataset.tutOldPointer !== undefined) {
       window.tutPrevTarget.style.pointerEvents = window.tutPrevTarget.dataset.tutOldPointer;
       delete window.tutPrevTarget.dataset.tutOldPointer;
@@ -4886,11 +4886,11 @@ function showTutorialStep(index) {
     tutActiveTarget.style.position = 'relative';
   }
   tutActiveTarget.style.zIndex = '10000';
-  
+
   // Disable interactions on the target
   tutActiveTarget.dataset.tutOldPointer = tutActiveTarget.style.pointerEvents;
   tutActiveTarget.style.pointerEvents = 'none';
-  
+
   // 1. BUY PANEL MOCKING
   const buyPanel = document.getElementById('buy-panel');
   if (targetSelector === '#buy-panel') {
@@ -4916,11 +4916,11 @@ function showTutorialStep(index) {
   // 2. PORTFOLIO MOCKING
   const portSummary = document.getElementById('portfolio-summary');
   const isPortfolioStep = targetSelector === '#portfolio-summary' || targetSelector === 'aside.portfolio-panel' || targetSelector === '#btn-show-report';
-  
+
   if (isPortfolioStep) {
     if (typeof state !== 'undefined' && Object.keys(state.portfolio || {}).length === 0 && !document.body.dataset.tutPortMock) {
       document.body.dataset.tutPortMock = 'true';
-      state.portfolio['VALE3'] = { qty: 100, avgPrice: 48.91, totalInvested: 4891.00, totalDivs: 0 }; 
+      state.portfolio['VALE3'] = { qty: 100, avgPrice: 48.91, totalInvested: 4891.00, totalDivs: 0 };
       if (typeof renderPortfolio === 'function') renderPortfolio();
     }
     if (targetSelector === '#btn-show-report' && portSummary) {
@@ -4952,10 +4952,10 @@ function showTutorialStep(index) {
     finalOverlay.classList.remove('active');
     delete finalOverlay.dataset.tutForced;
   }
-  
+
   tutOverlay.classList.remove('hidden');
   tutPopup.classList.remove('hidden');
-  
+
   // Allow DOM to update (e.g. display: block) before scrolling
   const scrollToTarget = () => {
     if (window.innerWidth < 900 && step.target === 'aside.portfolio-panel') {
@@ -4972,15 +4972,15 @@ function showTutorialStep(index) {
       positionTutorialPopup(step);
     });
   }, 100);
-  
+
   tutTitle.textContent = step.title;
   tutText.textContent = step.text;
-  
+
   // Update dots
   Array.from(tutDotsContainer.children).forEach((dot, i) => {
     dot.classList.toggle('active', i === index);
   });
-  
+
   btnTutPrev.disabled = (index === 0);
   btnTutNext.textContent = (index === tutorialSteps.length - 1) ? 'Começar!' : 'Próximo ➔';
 }
@@ -4988,7 +4988,7 @@ function showTutorialStep(index) {
 function positionTutorialPopup(step) {
   if (!tutActiveTarget) return;
   const rect = tutActiveTarget.getBoundingClientRect();
-  
+
   // Position the hole
   const tutHole = document.getElementById('tutorial-hole');
   if (tutHole) {
@@ -4998,18 +4998,18 @@ function positionTutorialPopup(step) {
     tutHole.style.width = (rect.width + pad * 2) + 'px';
     tutHole.style.height = (rect.height + pad * 2) + 'px';
   }
-  
+
   let top = 0;
   let left = 0;
   let arrowTop = '';
   let arrowLeft = '';
-  
+
   tutPopup.style.position = 'fixed';
-  
+
   const popupRect = tutPopup.getBoundingClientRect();
   const gap = 16;
-  const placement = window.innerWidth < 768 ? 'bottom' : step.placement; 
-  
+  const placement = window.innerWidth < 768 ? 'bottom' : step.placement;
+
   if (placement === 'bottom') {
     top = rect.bottom + gap;
     left = rect.left + (rect.width / 2) - (popupRect.width / 2);
@@ -5031,10 +5031,10 @@ function positionTutorialPopup(step) {
     arrowTop = 'calc(50% - 7px)';
     arrowLeft = '-8px';
   }
-  
+
   const margin = 10;
   const minTopMargin = window.innerWidth < 900 ? 95 : 10;
-  
+
   // General placement overflow fixes
   if (top + popupRect.height > window.innerHeight - margin) {
     // If it overflows bottom, force top
@@ -5076,10 +5076,10 @@ function positionTutorialPopup(step) {
     if (clampedArrowY > popupRect.height - 29) clampedArrowY = popupRect.height - 29;
     arrowTop = clampedArrowY + 'px';
   }
-  
+
   tutPopup.style.top = top + 'px';
   tutPopup.style.left = left + 'px';
-  
+
   tutArrow.style.top = arrowTop;
   tutArrow.style.left = arrowLeft;
 }
@@ -5088,7 +5088,7 @@ function finishTutorial() {
   localStorage.setItem('tutFinished', 'true');
   tutOverlay.classList.add('hidden');
   tutPopup.classList.add('hidden');
-  
+
   // Re-enable scroll
   document.body.classList.remove('tutorial-active');
   const main = document.querySelector('.broker-main');
@@ -5096,28 +5096,28 @@ function finishTutorial() {
 
   if (window.tutPrevTarget) {
     window.tutPrevTarget.style.zIndex = '';
-    
+
     if (window.tutPrevTarget.dataset.tutOldPos) {
       window.tutPrevTarget.style.position = window.tutPrevTarget.dataset.tutOldPos;
       delete window.tutPrevTarget.dataset.tutOldPos;
     } else {
       window.tutPrevTarget.style.position = '';
     }
-    
+
     if (window.tutPrevTarget.dataset.tutOldPointer !== undefined) {
       window.tutPrevTarget.style.pointerEvents = window.tutPrevTarget.dataset.tutOldPointer;
       delete window.tutPrevTarget.dataset.tutOldPointer;
     } else {
       window.tutPrevTarget.style.pointerEvents = '';
     }
-    
+
     window.tutPrevTarget = null;
   }
 
   if (tutActiveTarget) {
     tutActiveTarget = null;
   }
-  
+
   const buyPanel = document.getElementById('buy-panel');
   if (buyPanel) {
     if (buyPanel.dataset.tutMock === 'true') {
@@ -5165,7 +5165,7 @@ const suspenseLoader = document.getElementById('suspense-loader');
 
 if (suspenseOverlay) {
   const hasSeenSuspense = localStorage.getItem('suspense_seen');
-  
+
   if (hasSeenSuspense === 'true') {
     // Already saw it, hide immediately and start
     suspenseOverlay.style.display = 'none';
@@ -5173,9 +5173,9 @@ if (suspenseOverlay) {
   } else {
     // Show overlay
     document.body.style.overflow = 'hidden';
-    
+
     const title = document.getElementById('suspense-title');
-    
+
     async function typeText(text, speed = 50) {
       title.textContent = '';
       const chars = Array.from(text);
@@ -5193,58 +5193,58 @@ if (suspenseOverlay) {
         await new Promise(r => setTimeout(r, speed));
       }
     }
-    
+
     // Start typing initial question
     setTimeout(async () => {
       await typeText('Hora de alcançar um novo nível?', 50);
-      if(suspenseActions) suspenseActions.style.display = 'flex';
+      if (suspenseActions) suspenseActions.style.display = 'flex';
     }, 500);
-    
+
     // No button
     if (btnSuspenseNo) {
       btnSuspenseNo.addEventListener('click', async () => {
-        if(suspenseActions) suspenseActions.style.display = 'none';
-        
+        if (suspenseActions) suspenseActions.style.display = 'none';
+
         await eraseText(30);
         await typeText('Então tá 👋', 60);
-        
-        if(suspenseLoader) suspenseLoader.style.display = 'block';
+
+        if (suspenseLoader) suspenseLoader.style.display = 'block';
         void suspenseLoader.offsetWidth;
         suspenseOverlay.classList.add('loading-active-fast');
-        
+
         setTimeout(() => {
           window.location.href = '../#aprender';
         }, 2000);
       });
     }
-    
+
     // Yes button
     if (btnSuspenseYes) {
       btnSuspenseYes.addEventListener('click', async () => {
-        if(suspenseActions) suspenseActions.style.display = 'none';
-        
+        if (suspenseActions) suspenseActions.style.display = 'none';
+
         await eraseText(30);
         await typeText('Então vamos lá...', 60);
-        
+
         await new Promise(r => setTimeout(r, 1000));
         await eraseText(30);
-        
+
         await typeText('Ready?', 70);
         await new Promise(r => setTimeout(r, 600));
         await eraseText(20);
-        
+
         // Hide title completely and show pulsing loader
         title.style.display = 'none';
-        if(suspenseLoader) suspenseLoader.style.display = 'block';
-        
+        if (suspenseLoader) suspenseLoader.style.display = 'block';
+
         void suspenseLoader.offsetWidth;
         suspenseOverlay.classList.add('loading-active'); // 7s pulse
-        
+
         setTimeout(() => {
           suspenseOverlay.classList.add('fade-out');
           document.body.style.overflow = '';
           localStorage.setItem('suspense_seen', 'true');
-          
+
           setTimeout(() => {
             suspenseOverlay.style.display = 'none';
             initTutorial();
@@ -5269,4 +5269,15 @@ document.addEventListener('keydown', e => {
   ) {
     e.preventDefault();
   }
+});
+
+// ── Limite Global de Inputs (Prevenção de quebra de layout) ───
+document.querySelectorAll('input[type="number"]').forEach(input => {
+  input.addEventListener('input', function() {
+    const max = this.hasAttribute('max') ? parseFloat(this.getAttribute('max')) : 999999999;
+    if (Number(this.value) > max) {
+      this.value = max;
+      this.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+  });
 });
